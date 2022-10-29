@@ -23,6 +23,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(option =>
     option.Password.RequiredLength = 8;
     option.Password.RequireNonAlphanumeric = false;
 })
+  .AddRoles<IdentityRole>()
   .AddEntityFrameworkStores<SCRUMDbContext>()
   .AddDefaultTokenProviders();
 
