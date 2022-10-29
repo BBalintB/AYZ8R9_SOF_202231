@@ -20,6 +20,8 @@ namespace AYZ8R9_SOF_202231.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             PasswordHasher<AppUser> ph = new PasswordHasher<AppUser>();
+
+            #region Seeded_Data
             AppUser admin = new AppUser
             {
                 Id = Guid.NewGuid().ToString(),
@@ -29,6 +31,7 @@ namespace AYZ8R9_SOF_202231.Data
                 FirstName = "Big",
                 LastName = "Boss",
                 NormalizedUserName = "ADMIN",
+                
             };
             admin.PasswordHash = ph.HashPassword(admin, "pirosalma");
 
@@ -46,7 +49,9 @@ namespace AYZ8R9_SOF_202231.Data
 
             ProjectAppUser PA1 = new ProjectAppUser() { ProjectId = TestProject.ProjectId, AppUserId = admin.Id };
 
+            #endregion
 
+            #region TableConnections
             builder.Entity<Sprint>()
                 .HasOne(Sprint => Sprint.Project)
                 .WithMany(Project => Project.ProjectSprints)
@@ -86,10 +91,13 @@ namespace AYZ8R9_SOF_202231.Data
             builder.Entity<UserStory>().HasData(TestStory, TestStory1, TestStory2);
             builder.Entity<ProjectAppUser>().HasData(PA1);
 
+            #endregion
+
 
             builder.Entity<IdentityRole>().HasData(
               new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
-              new { Id = "2", Name = "Customer", NormalizedName = "CUSTOMER" }
+              new { Id = "2", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" },
+              new { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
             );
 
 
