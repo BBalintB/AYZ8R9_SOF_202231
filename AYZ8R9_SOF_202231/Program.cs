@@ -1,5 +1,7 @@
 using AYZ8R9_SOF_202231.Data;
+using AYZ8R9_SOF_202231.Logic;
 using AYZ8R9_SOF_202231.Model;
+using AYZ8R9_SOF_202231.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IAppUserLogic, AppUserLogic>();
+
+
+builder.Services.AddTransient<IAppUserRepository, AppUserRepository>();
+
+
 
 builder.Services.AddDbContext<SCRUMDbContext>(opt =>
 {
