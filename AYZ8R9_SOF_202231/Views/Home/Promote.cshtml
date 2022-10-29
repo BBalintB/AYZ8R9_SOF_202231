@@ -1,6 +1,6 @@
 ﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
 @inject IEnumerable<AppUser> Users
-
 
 <ul class="list-group">
     @foreach (var user in Users)
@@ -8,6 +8,7 @@
         <li class="list-group-item">
             @user.LastName @user.FirstName
             <button type="button" class="btn btn-warning" href="Home/PromoteMaster?uid=@user.Id">Promote</button>
+             
             <button type="button" class="btn btn-danger" href="Home/DemoteMaster?uid=@user.Id">Demote</button>
 
         </li>

@@ -34,6 +34,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         public async Task<IActionResult> PromoteMaster() 
         {
             var actual = this.User;
@@ -43,15 +44,15 @@ namespace AYZ8R9_SOF_202231.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult DemoteMaster(string userId) 
+        public async Task<IActionResult> DemoteMaster(string userId) 
         {
             var item = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
             if (item != null)
             {
-                 _userManager.RemoveFromRoleAsync(item, "Scrum_Master");
+                await _userManager.RemoveFromRoleAsync(item, "Scrum_Master");
             }
 
-            return View(_db.Users);
+            return RedirectToAction(nameof(Index));
 
         }
 

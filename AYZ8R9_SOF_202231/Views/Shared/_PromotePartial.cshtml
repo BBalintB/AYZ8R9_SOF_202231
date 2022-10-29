@@ -1,8 +1,14 @@
-﻿
+﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 
 
 
-
+@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Scrum_Master") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+{
 <li class="nav-item">
     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Promote">Manage Masters</a>
 </li>
+}
+
