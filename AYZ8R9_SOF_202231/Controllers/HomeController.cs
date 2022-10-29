@@ -1,4 +1,5 @@
 ﻿using AYZ8R9_SOF_202231.Data;
+using AYZ8R9_SOF_202231.Model;
 using AYZ8R9_SOF_202231.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,11 +12,11 @@ namespace AYZ8R9_SOF_202231.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SCRUMDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db)
         {
             _logger = logger;
             _userManager = userManager;
