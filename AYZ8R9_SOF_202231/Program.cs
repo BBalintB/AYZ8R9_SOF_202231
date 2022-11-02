@@ -13,6 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<SCRUMDbContext>(opt =>
+{
+    //opt.UseInMemoryDatabase("db");
+    opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SCRUMDB;Trusted_Connection=True;MultipleActiveResultSets=true")
+    .UseLazyLoadingProxies();
+});
+
 builder.Services.AddTransient<IAppUserLogic, AppUserLogic>();
 
 
@@ -20,12 +27,7 @@ builder.Services.AddTransient<IAppUserRepository, AppUserRepository>();
 
 
 
-builder.Services.AddDbContext<SCRUMDbContext>(opt =>
-{
-    //opt.UseInMemoryDatabase("db");
-    opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SCRUMDB;Trusted_Connection=True;MultipleActiveResultSets=true")
-    .UseLazyLoadingProxies();
-});
+
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(option =>
 {
