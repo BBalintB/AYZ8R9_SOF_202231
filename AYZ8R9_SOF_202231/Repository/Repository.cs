@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AYZ8R9_SOF_202231.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AYZ8R9_SOF_202231.Repository
 {
     public abstract class Repository<T> : IRepository<T> where T : class
     {
-        protected IdentityDbContext ctx;
+        protected SCRUMDbContext ctx;
 
-        protected Repository(IdentityDbContext ctx)
+        protected Repository(SCRUMDbContext ctx)
         {
             this.ctx = ctx;
         }

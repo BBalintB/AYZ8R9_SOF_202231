@@ -1,11 +1,12 @@
-﻿using AYZ8R9_SOF_202231.Model;
+﻿using AYZ8R9_SOF_202231.Data;
+using AYZ8R9_SOF_202231.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AYZ8R9_SOF_202231.Repository
 {
     public class AppUserRepository : Repository<AppUser>, IAppUserRepository
     {
-        public AppUserRepository(IdentityDbContext ctx) : base(ctx)
+        public AppUserRepository(SCRUMDbContext ctx) : base(ctx)
         {
         }
 

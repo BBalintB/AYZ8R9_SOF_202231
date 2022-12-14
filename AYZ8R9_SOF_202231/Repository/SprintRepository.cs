@@ -1,11 +1,12 @@
-﻿using AYZ8R9_SOF_202231.Model;
+﻿using AYZ8R9_SOF_202231.Data;
+using AYZ8R9_SOF_202231.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AYZ8R9_SOF_202231.Repository
 {
     public class SprintRepository : Repository<Sprint>, ISprintRepository
     {
-        public SprintRepository(IdentityDbContext ctx) : base(ctx)
+        public SprintRepository(SCRUMDbContext ctx) : base(ctx)
         {
         }
 
