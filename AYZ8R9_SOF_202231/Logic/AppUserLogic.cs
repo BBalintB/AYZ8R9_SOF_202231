@@ -57,7 +57,7 @@ namespace AYZ8R9_SOF_202231.Logic
 
         public AppUser GetOneUser(string id)
         {
-            var user = GetOneUser(id);
+            var user = GetAllUsers().FirstOrDefault(x=> x.Id == id);
             if (user != null)
             {
                 return userRepo.GetOne(id);

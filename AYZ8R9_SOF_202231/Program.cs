@@ -13,11 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
 builder.Services.AddTransient<IAppUserLogic, AppUserLogic>();
 
 
 builder.Services.AddTransient<IAppUserRepository, AppUserRepository>();
-
 
 
 builder.Services.AddDbContext<SCRUMDbContext>(opt =>
@@ -54,6 +54,8 @@ builder.Services.AddAuthentication(option =>
       (Encoding.UTF8.GetBytes("nagyonhosszutitkoskodhelye"))
     };
 });
+
+
 
 var app = builder.Build();
 
