@@ -14,9 +14,9 @@ namespace AYZ8R9_SOF_202231.Logic
             this.userRepo = userRepo;
         }
 
-        public void ChangeUser(AppUser NewAppUser)
+        public void ChangeUser(AppUser newAppUser)
         {
-            var user = GetOneUser(NewAppUser.Id);
+            var user = GetOneUser(newAppUser.Id);
             if (user != null)
             {
                 userRepo.Change(user);
@@ -27,12 +27,12 @@ namespace AYZ8R9_SOF_202231.Logic
             }
         }
 
-        public void CreateUser(AppUser NewAppUser)
+        public void CreateUser(AppUser newAppUser)
         {
 
-            if (IsTheUserExist(NewAppUser))
+            if (IsTheUserExist(newAppUser))
             {
-                userRepo.Create(NewAppUser);
+                userRepo.Create(newAppUser);
             }
             else
             {

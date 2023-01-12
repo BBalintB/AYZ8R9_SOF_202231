@@ -21,14 +21,13 @@ namespace AYZ8R9_SOF_202231.Tests
         }
         [Test]
         public void UserAlreadyExistExceptionThrown() {
-            Assert.Throws<ItemAlreadyExistException>(() => logic.CreateUser(new AppUser() { Email = "admin@admin.com", UserName = "admin", FirstName="Test", LastName="Case"}));
+            Assert.Throws<ItemAlreadyExistException>(() => logic.CreateUser(new AppUser() { Email = "admin1@admin.com", UserName = "admin1", FirstName="Test", LastName="Case"}));
         }
 
         [Test]
         public void UserDoesNotExistExceptionThrown()
         {
             var xy = Assert.Throws<ItemDoesNotExistException>(() => logic.DeleteUser("24"));
-            ;
         }
 
 
@@ -37,9 +36,9 @@ namespace AYZ8R9_SOF_202231.Tests
             AppUser admin = new AppUser
             {
                 Id = Guid.NewGuid().ToString(),
-                Email = "admin@admin.com",
+                Email = "admin1@admin.com",
                 EmailConfirmed = true,
-                UserName = "admin",
+                UserName = "admin1",
                 FirstName = "Big",
                 LastName = "Boss",
                 NormalizedUserName = "ADMIN",

@@ -18,10 +18,10 @@ namespace AYZ8R9_SOF_202231.Model
         public string ProjectName { get; set; }
 
         [ForeignKey(nameof(AppUser))]
-        public string? OwnerId { get; set; }
+        public string OwnerId { get; set; }
 
         [NotMapped]
-        public virtual AppUser? Owner { get; set; }
+        public virtual AppUser Owner { get; set; }
         [NotMapped]
         [JsonIgnore]
         public virtual ICollection<ProjectAppUser> ProjectUsers { get; set; }
