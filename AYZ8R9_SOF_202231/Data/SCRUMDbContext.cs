@@ -95,9 +95,8 @@ namespace AYZ8R9_SOF_202231.Data
 
 
             builder.Entity<IdentityRole>().HasData(
-              new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
-              new { Id = "2", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" },
-              new { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
+              new { Id = "1", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" },
+              new { Id = "2", Name = "Customer", NormalizedName = "CUSTOMER" }
             );
 
 
