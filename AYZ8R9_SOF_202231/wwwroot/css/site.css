@@ -1,18 +1,41 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.pin_idxbox {
+    margin: 3px;
+    padding: 3px;
+}
+
+.idx_flexbox {
+    text-align: center;
+    align-self: center;
+    justify-content: center !important;
+    flex-direction: row;
+    display: flex;
+    width: 100%;
+    height: 500px;
+}
+
+.idx_flexbox_content {
+    width: 400px;
+    height: 400px;
+    text-align: center !important;
+    align-content: center;
+    align-self: center !important;
 }

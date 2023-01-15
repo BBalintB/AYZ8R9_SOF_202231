@@ -1,23 +1,12 @@
-using AYZ8R9_SOF_202231.Data;
-using AYZ8R9_SOF_202231.Logic;
 using AYZ8R9_SOF_202231.Model;
-using AYZ8R9_SOF_202231.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using AYZ8R9_SOF_202231.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddTransient<IAppUserLogic, AppUserLogic>();
-
-
-builder.Services.AddTransient<IAppUserRepository, AppUserRepository>();
-
 
 builder.Services.AddDbContext<SCRUMDbContext>(opt =>
 {
@@ -26,54 +15,47 @@ builder.Services.AddDbContext<SCRUMDbContext>(opt =>
     .UseLazyLoadingProxies();
 });
 
-builder.Services.AddIdentity<AppUser, IdentityRole>(option =>
+builder.Services.AddDefaultIdentity<AppUser>(options =>
 {
-    option.Password.RequiredLength = 8;
-    option.Password.RequireNonAlphanumeric = false;
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+
 })
-  .AddRoles<IdentityRole>()
-  .AddEntityFrameworkStores<SCRUMDbContext>()
-  .AddDefaultTokenProviders();
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<SCRUMDbContext>();
 
-builder.Services.AddAuthentication(option =>
-{
-    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = true;
-    options.TokenValidationParameters = new TokenValidationParameters()
+
+builder.Services.AddRazorPages();
+
+builder.Services.AddAuthentication()
+    .AddFacebook(opt =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = "http://www.security.org",
-        ValidIssuer = "http://www.security.org",
-        IssuerSigningKey = new SymmetricSecurityKey
-      (Encoding.UTF8.GetBytes("nagyonhosszutitkoskodhelye"))
-    };
-});
+        opt.AppId = "432880205364301";
+        opt.AppSecret = "057aabcf79ef365533cdab4cae0f3112";
+    })
+    .AddMicrosoftAccount(opt =>
+    {
+        opt.ClientId = "e31119ab-d694-44c7-928c-46da1588192c";
+        opt.ClientSecret = "yRG8Q~Z-AE88PwQudM0w_69-IGFiPFqRY.vOScJF";
+        opt.SaveTokens = true;
+    });
 
-
+//builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
-
-//// Configure the HTTP request pipeline.
-//if (!app.Environment.IsDevelopment())
-//{
-//    app.UseExceptionHandler("/Home/Error");
-//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//    app.UseHsts();
-//}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); ;
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllers();
 app.MapControllerRoute(
     name: "default",

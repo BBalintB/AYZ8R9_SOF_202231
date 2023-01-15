@@ -27,13 +27,13 @@ namespace AYZ8R9_SOF_202231.Data
                 Id = Guid.NewGuid().ToString(),
                 Email = "admin@admin.com",
                 EmailConfirmed = true,
-                UserName = "admin",
+                UserName = "admin@admin.com",
                 FirstName = "Big",
                 LastName = "Boss",
                 NormalizedUserName = "ADMIN",
                 
             };
-            admin.PasswordHash = ph.HashPassword(admin, "pirosalma");
+            admin.PasswordHash = ph.HashPassword(admin, "pirosalma123");
 
 
             Project TestProject = new Project() { ProjectName = "Test Project", OwnerId = admin.Id };
@@ -95,9 +95,8 @@ namespace AYZ8R9_SOF_202231.Data
 
 
             builder.Entity<IdentityRole>().HasData(
-              new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
-              new { Id = "2", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" },
-              new { Id = "3", Name = "Customer", NormalizedName = "CUSTOMER" }
+              new { Id = "1", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" },
+              new { Id = "2", Name = "Customer", NormalizedName = "CUSTOMER" }
             );
 
 
