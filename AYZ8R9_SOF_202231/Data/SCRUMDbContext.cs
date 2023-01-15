@@ -27,13 +27,13 @@ namespace AYZ8R9_SOF_202231.Data
                 Id = Guid.NewGuid().ToString(),
                 Email = "admin@admin.com",
                 EmailConfirmed = true,
-                UserName = "admin",
+                UserName = "admin@admin.com",
                 FirstName = "Big",
                 LastName = "Boss",
                 NormalizedUserName = "ADMIN",
                 
             };
-            admin.PasswordHash = ph.HashPassword(admin, "pirosalma");
+            admin.PasswordHash = ph.HashPassword(admin, "pirosalma123");
 
 
             Project TestProject = new Project() { ProjectName = "Test Project", OwnerId = admin.Id };
