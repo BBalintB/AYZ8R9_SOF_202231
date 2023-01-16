@@ -97,8 +97,8 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            //[Display(Name = "Picture")]
-            //public IFormFile File { get; set; }
+            [Display(Name = "Picture")]
+            public IFormFile File { get; set; }
         }
 
 
@@ -117,14 +117,16 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                //user.PhotoContentType = Input.File.ContentType;
 
-                //byte[] data = new byte[(int)Input.File.Length];
-                //using (var stream = Input.File.OpenReadStream())
-                //{
-                //    stream.Read(data, 0, data.Length);
-                //}
-                //user.PhotoData = data;
+                user.PhotoContentType = Input.File.ContentType;
+
+                byte[] data = new byte[(int)Input.File.Length];
+                using (var stream = Input.File.OpenReadStream())
+                {
+                    stream.Read(data, 0, data.Length);
+                }
+                user.PhotoData = data;
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);

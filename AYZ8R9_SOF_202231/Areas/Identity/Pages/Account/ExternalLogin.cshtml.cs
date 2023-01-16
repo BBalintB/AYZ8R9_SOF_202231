@@ -180,7 +180,7 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
 
                 var wc = new WebClient();
                 user.PhotoData = wc.DownloadData(Input.PictureUrl);
-                user.PhotoContentType = wc.ResponseHeaders["Content-type"];
+                user.PhotoContentType = wc.ResponseHeaders["Content-Type"];
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

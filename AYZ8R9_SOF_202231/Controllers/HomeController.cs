@@ -29,10 +29,27 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [Authorize]
+        public async Task<IActionResult> Privacy()
         {
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
             return View();
         }
+
+        public async Task<IActionResult> GetImage(string userid)
+        {
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            if (user != null)
+                return new FileContentResult(user.PhotoData, user.PhotoContentType);
+            else
+                return View();
+
+            
+        }
+
+
+
 
         [Authorize(Roles = "Admin,Scrum_Master")]
         public async Task<IActionResult> PromoteMaster() 
