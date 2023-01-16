@@ -33,14 +33,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddAuthentication()
     .AddFacebook(opt =>
     {
-        opt.AppId = "432880205364301";
-        opt.AppSecret = "057aabcf79ef365533cdab4cae0f3112";
-    })
-    .AddMicrosoftAccount(opt =>
-    {
-        opt.ClientId = "e31119ab-d694-44c7-928c-46da1588192c";
-        opt.ClientSecret = "yRG8Q~Z-AE88PwQudM0w_69-IGFiPFqRY.vOScJF";
-        opt.SaveTokens = true;
+        opt.AppId = "666379255279692";
+        opt.AppSecret = "5dcc3cdc5508c6e79f0f573821883d31";
     });
 
 //builder.Services.AddTransient<IEmailSender, EmailSender>();
