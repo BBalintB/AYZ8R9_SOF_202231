@@ -22,13 +22,13 @@ namespace AYZ8R9_SOF_202231.Tests
         }
 
         [Test]
-        public void UserAlreadyExistExceptionThrown()
+        public void ProjectAlreadyExistExceptionThrown()
         {
             Assert.Throws<ItemAlreadyExistException>(() => logic.CreateProject(new Project() { ProjectName = "Test Project 1", Owner = new AppUser() { UserName = "projectadmin", FirstName = "Big", LastName = "Boss", Email= "projectadmin@admin.com" } }));
         }
 
         [Test]
-        public void UserDoesNotExistExceptionThrown()
+        public void ProjectDoesNotExistExceptionThrown()
         {
             var xy = Assert.Throws<ItemDoesNotExistException>(() => logic.DeleteProject("24"));
         }
