@@ -2,6 +2,8 @@ using AYZ8R9_SOF_202231.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AYZ8R9_SOF_202231.Data;
+using AYZ8R9_SOF_202231.Repository;
+using AYZ8R9_SOF_202231.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +46,21 @@ builder.Services.AddAuthentication()
     });
 
 //builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+builder.Services.AddTransient<IAppUserRepository, AppUserRepository>();
+builder.Services.AddTransient<IAppUserLogic, AppUserLogic>();
+
+builder.Services.AddTransient<IProjectRepository, ProjectRepository>();
+builder.Services.AddTransient<IProjectLogic, ProjectLogic>();
+
+builder.Services.AddTransient<ISprintRepository, SprintRepository>();
+builder.Services.AddTransient<ISprintLogic, SprintLogic>();
+
+builder.Services.AddTransient<IUserStoryRepository, UserStoryRepository>();
+builder.Services.AddTransient<IUserStoryLogic, UserStoryLogic>();
+
+builder.Services.AddTransient<IProjectAppUserRepository, ProjectAppUserRepository>();
+builder.Services.AddTransient<IProjectAppUserLogic, ProjectAppUserLogic>();
 
 var app = builder.Build();
 
