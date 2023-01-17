@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AYZ8R9_SOF_202231.Migrations
 {
     [DbContext(typeof(SCRUMDbContext))]
-    [Migration("20221029100407_set-database")]
+    [Migration("20230116192735_set-database")]
     partial class setdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -108,20 +108,20 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5bc7a3cd-0013-475d-b274-0a0f6f38f19d",
+                            Id = "d742dd5b-e74d-45a9-81ea-b2183db3883a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4caaf443-bd38-472d-b2cc-165a29d8b34d",
+                            ConcurrencyStamp = "2a8d8e38-e07f-4306-ab25-e94ca192e8bd",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Big",
                             LastName = "Boss",
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDTTD30LUxBPuiNaDisR21aEmqbNW5l/n05tYshnEE+iUqeivnKMGCXN2uPQp9LrGw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDmlVmlY5fJ7xDj3Avl+NfTrUI0FJ1yFjOTDE3A9nJWTjvyFU8AtW4/K62flqhuijw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e7a9df78-507e-4a48-bd0e-a6748bbf09ee",
+                            SecurityStamp = "419a38e6-a0a7-4132-b026-1c15d61176e2",
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "admin@admin.com"
                         });
                 });
 
@@ -131,6 +131,7 @@ namespace AYZ8R9_SOF_202231.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("OwnerId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProjectName")
@@ -146,8 +147,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            ProjectId = "e9859847-955d-4a3a-853a-c79eeb208ea1",
-                            OwnerId = "5bc7a3cd-0013-475d-b274-0a0f6f38f19d",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
+                            OwnerId = "d742dd5b-e74d-45a9-81ea-b2183db3883a",
                             ProjectName = "Test Project"
                         });
                 });
@@ -160,6 +161,9 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ProjectId", "AppUserId");
 
                     b.HasIndex("AppUserId");
@@ -169,8 +173,9 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            ProjectId = "e9859847-955d-4a3a-853a-c79eeb208ea1",
-                            AppUserId = "5bc7a3cd-0013-475d-b274-0a0f6f38f19d"
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
+                            AppUserId = "d742dd5b-e74d-45a9-81ea-b2183db3883a",
+                            ConnectionId = "ae52ce1a-6d66-4260-95b8-57626f5283bd"
                         });
                 });
 
@@ -199,22 +204,22 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            SprintId = "1b223621-ac0d-4c67-a14d-85632be3fd71",
-                            ProjectId = "e9859847-955d-4a3a-853a-c79eeb208ea1",
+                            SprintId = "e8a02d41-d5ee-4608-b7dd-0442744dc49a",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
                             SprintDueDate = "2022.12.14",
                             SprintName = "Test Sprint"
                         },
                         new
                         {
-                            SprintId = "aa54b9ff-d43b-418e-9326-c7cd059c8a9c",
-                            ProjectId = "e9859847-955d-4a3a-853a-c79eeb208ea1",
+                            SprintId = "ce4fc6e4-1ac7-43d2-9f2e-ffa1b942c6da",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
                             SprintDueDate = "2022.12.24",
                             SprintName = "Test Sprint1"
                         },
                         new
                         {
-                            SprintId = "49d536f5-88cf-456f-9a2a-e4c98e893091",
-                            ProjectId = "e9859847-955d-4a3a-853a-c79eeb208ea1",
+                            SprintId = "25788432-dbbb-42ef-af63-331da4a881f9",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
                             SprintDueDate = "2022.12.30",
                             SprintName = "Test Sprint2"
                         });
@@ -251,30 +256,30 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            UserStoryId = "99de54c8-03a7-43b6-a579-2960784438c7",
-                            SprintId = "1b223621-ac0d-4c67-a14d-85632be3fd71",
+                            UserStoryId = "1c4f444c-b716-4200-9cf9-1db445a780ea",
+                            SprintId = "e8a02d41-d5ee-4608-b7dd-0442744dc49a",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 1",
-                            UserStoryPriority = 0
+                            UserStoryPriority = 5
                         },
                         new
                         {
-                            UserStoryId = "4b15de44-312d-4742-a184-1a25e1ee7cbf",
-                            SprintId = "1b223621-ac0d-4c67-a14d-85632be3fd71",
+                            UserStoryId = "c22e988f-a693-48a7-a90c-aa152206fd4f",
+                            SprintId = "e8a02d41-d5ee-4608-b7dd-0442744dc49a",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 2",
-                            UserStoryPriority = 0
+                            UserStoryPriority = 3
                         },
                         new
                         {
-                            UserStoryId = "76a02117-a8b9-4203-995b-a291e09f9f9b",
-                            SprintId = "aa54b9ff-d43b-418e-9326-c7cd059c8a9c",
+                            UserStoryId = "a09a5957-7dbd-4122-beb0-253c1d04c973",
+                            SprintId = "ce4fc6e4-1ac7-43d2-9f2e-ffa1b942c6da",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 3",
-                            UserStoryPriority = 0
+                            UserStoryPriority = 11
                         });
                 });
 
@@ -308,8 +313,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                         new
                         {
                             Id = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Name = "Scrum_Master",
+                            NormalizedName = "SCRUM_MASTER"
                         },
                         new
                         {
@@ -372,10 +377,12 @@ namespace AYZ8R9_SOF_202231.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -412,10 +419,12 @@ namespace AYZ8R9_SOF_202231.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -430,7 +439,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasOne("AYZ8R9_SOF_202231.Model.AppUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Owner");
                 });

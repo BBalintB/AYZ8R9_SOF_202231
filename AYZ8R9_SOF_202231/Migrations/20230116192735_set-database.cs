@@ -98,8 +98,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -143,8 +143,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -164,7 +164,7 @@ namespace AYZ8R9_SOF_202231.Migrations
                 {
                     ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -182,7 +182,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                 columns: table => new
                 {
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ConnectionId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -244,7 +245,7 @@ namespace AYZ8R9_SOF_202231.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", null, "Admin", "ADMIN" });
+                values: new object[] { "1", null, "Scrum_Master", "SCRUM_MASTER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
@@ -254,42 +255,42 @@ namespace AYZ8R9_SOF_202231.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PhotoContentType", "PhotoData", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "5bc7a3cd-0013-475d-b274-0a0f6f38f19d", 0, "4caaf443-bd38-472d-b2cc-165a29d8b34d", "admin@admin.com", true, "Big", "Boss", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEDTTD30LUxBPuiNaDisR21aEmqbNW5l/n05tYshnEE+iUqeivnKMGCXN2uPQp9LrGw==", null, false, null, null, "e7a9df78-507e-4a48-bd0e-a6748bbf09ee", false, "admin" });
+                values: new object[] { "d742dd5b-e74d-45a9-81ea-b2183db3883a", 0, "2a8d8e38-e07f-4306-ab25-e94ca192e8bd", "admin@admin.com", true, "Big", "Boss", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEDmlVmlY5fJ7xDj3Avl+NfTrUI0FJ1yFjOTDE3A9nJWTjvyFU8AtW4/K62flqhuijw==", null, false, null, null, "419a38e6-a0a7-4132-b026-1c15d61176e2", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Projects",
                 columns: new[] { "ProjectId", "OwnerId", "ProjectName" },
-                values: new object[] { "e9859847-955d-4a3a-853a-c79eeb208ea1", "5bc7a3cd-0013-475d-b274-0a0f6f38f19d", "Test Project" });
+                values: new object[] { "e9f317c9-566f-49ec-b033-e19da02e784f", "d742dd5b-e74d-45a9-81ea-b2183db3883a", "Test Project" });
 
             migrationBuilder.InsertData(
                 table: "ProjectAppUsersConnection",
-                columns: new[] { "AppUserId", "ProjectId" },
-                values: new object[] { "5bc7a3cd-0013-475d-b274-0a0f6f38f19d", "e9859847-955d-4a3a-853a-c79eeb208ea1" });
+                columns: new[] { "AppUserId", "ProjectId", "ConnectionId" },
+                values: new object[] { "d742dd5b-e74d-45a9-81ea-b2183db3883a", "e9f317c9-566f-49ec-b033-e19da02e784f", "ae52ce1a-6d66-4260-95b8-57626f5283bd" });
 
             migrationBuilder.InsertData(
                 table: "Sprints",
                 columns: new[] { "SprintId", "ProjectId", "SprintDueDate", "SprintName" },
                 values: new object[,]
                 {
-                    { "1b223621-ac0d-4c67-a14d-85632be3fd71", "e9859847-955d-4a3a-853a-c79eeb208ea1", "2022.12.14", "Test Sprint" },
-                    { "49d536f5-88cf-456f-9a2a-e4c98e893091", "e9859847-955d-4a3a-853a-c79eeb208ea1", "2022.12.30", "Test Sprint2" },
-                    { "aa54b9ff-d43b-418e-9326-c7cd059c8a9c", "e9859847-955d-4a3a-853a-c79eeb208ea1", "2022.12.24", "Test Sprint1" }
+                    { "25788432-dbbb-42ef-af63-331da4a881f9", "e9f317c9-566f-49ec-b033-e19da02e784f", "2022.12.30", "Test Sprint2" },
+                    { "ce4fc6e4-1ac7-43d2-9f2e-ffa1b942c6da", "e9f317c9-566f-49ec-b033-e19da02e784f", "2022.12.24", "Test Sprint1" },
+                    { "e8a02d41-d5ee-4608-b7dd-0442744dc49a", "e9f317c9-566f-49ec-b033-e19da02e784f", "2022.12.14", "Test Sprint" }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserStories",
                 columns: new[] { "UserStoryId", "SprintId", "Status", "UserStoryDescription", "UserStoryName", "UserStoryPriority" },
-                values: new object[] { "4b15de44-312d-4742-a184-1a25e1ee7cbf", "1b223621-ac0d-4c67-a14d-85632be3fd71", 0, "Just a test", "Test user story 2", 0 });
+                values: new object[] { "1c4f444c-b716-4200-9cf9-1db445a780ea", "e8a02d41-d5ee-4608-b7dd-0442744dc49a", 0, "Just a test", "Test user story 1", 5 });
 
             migrationBuilder.InsertData(
                 table: "UserStories",
                 columns: new[] { "UserStoryId", "SprintId", "Status", "UserStoryDescription", "UserStoryName", "UserStoryPriority" },
-                values: new object[] { "76a02117-a8b9-4203-995b-a291e09f9f9b", "aa54b9ff-d43b-418e-9326-c7cd059c8a9c", 0, "Just a test", "Test user story 3", 0 });
+                values: new object[] { "a09a5957-7dbd-4122-beb0-253c1d04c973", "ce4fc6e4-1ac7-43d2-9f2e-ffa1b942c6da", 0, "Just a test", "Test user story 3", 11 });
 
             migrationBuilder.InsertData(
                 table: "UserStories",
                 columns: new[] { "UserStoryId", "SprintId", "Status", "UserStoryDescription", "UserStoryName", "UserStoryPriority" },
-                values: new object[] { "99de54c8-03a7-43b6-a579-2960784438c7", "1b223621-ac0d-4c67-a14d-85632be3fd71", 0, "Just a test", "Test user story 1", 0 });
+                values: new object[] { "c22e988f-a693-48a7-a90c-aa152206fd4f", "e8a02d41-d5ee-4608-b7dd-0442744dc49a", 0, "Just a test", "Test user story 2", 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

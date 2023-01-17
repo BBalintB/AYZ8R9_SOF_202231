@@ -17,7 +17,7 @@ namespace AYZ8R9_SOF_202231.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -106,20 +106,20 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b5906e3e-3cf5-46c9-bc13-79eff7aa4dfd",
+                            Id = "d742dd5b-e74d-45a9-81ea-b2183db3883a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7ab23f7c-7b5c-43b5-a375-8af3197db851",
+                            ConcurrencyStamp = "2a8d8e38-e07f-4306-ab25-e94ca192e8bd",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Big",
                             LastName = "Boss",
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMwJMbEO5shEEo+RSxNxBprMYAzH1pDaAUiLOCyAEwXHvKHFs1/WxanS7DBVPPt4bA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDmlVmlY5fJ7xDj3Avl+NfTrUI0FJ1yFjOTDE3A9nJWTjvyFU8AtW4/K62flqhuijw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3e3d5cce-ea70-43d0-adce-1aac1ca653be",
+                            SecurityStamp = "419a38e6-a0a7-4132-b026-1c15d61176e2",
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "admin@admin.com"
                         });
                 });
 
@@ -145,8 +145,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            ProjectId = "503193da-c766-49d5-a3c1-f5ec9368ddab",
-                            OwnerId = "b5906e3e-3cf5-46c9-bc13-79eff7aa4dfd",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
+                            OwnerId = "d742dd5b-e74d-45a9-81ea-b2183db3883a",
                             ProjectName = "Test Project"
                         });
                 });
@@ -159,6 +159,9 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ProjectId", "AppUserId");
 
                     b.HasIndex("AppUserId");
@@ -168,8 +171,9 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            ProjectId = "503193da-c766-49d5-a3c1-f5ec9368ddab",
-                            AppUserId = "b5906e3e-3cf5-46c9-bc13-79eff7aa4dfd"
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
+                            AppUserId = "d742dd5b-e74d-45a9-81ea-b2183db3883a",
+                            ConnectionId = "ae52ce1a-6d66-4260-95b8-57626f5283bd"
                         });
                 });
 
@@ -198,22 +202,22 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            SprintId = "1e90ebe3-b4c3-48f0-8a7b-45c801196b16",
-                            ProjectId = "503193da-c766-49d5-a3c1-f5ec9368ddab",
+                            SprintId = "e8a02d41-d5ee-4608-b7dd-0442744dc49a",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
                             SprintDueDate = "2022.12.14",
                             SprintName = "Test Sprint"
                         },
                         new
                         {
-                            SprintId = "d4d0f9e7-dc04-4357-8445-eb3a422bb4f1",
-                            ProjectId = "503193da-c766-49d5-a3c1-f5ec9368ddab",
+                            SprintId = "ce4fc6e4-1ac7-43d2-9f2e-ffa1b942c6da",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
                             SprintDueDate = "2022.12.24",
                             SprintName = "Test Sprint1"
                         },
                         new
                         {
-                            SprintId = "692e9db4-67ce-45eb-bd41-ac88dc736c7d",
-                            ProjectId = "503193da-c766-49d5-a3c1-f5ec9368ddab",
+                            SprintId = "25788432-dbbb-42ef-af63-331da4a881f9",
+                            ProjectId = "e9f317c9-566f-49ec-b033-e19da02e784f",
                             SprintDueDate = "2022.12.30",
                             SprintName = "Test Sprint2"
                         });
@@ -250,8 +254,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            UserStoryId = "b9f9ed0d-7ec2-45c5-be56-54e68ae6d92f",
-                            SprintId = "1e90ebe3-b4c3-48f0-8a7b-45c801196b16",
+                            UserStoryId = "1c4f444c-b716-4200-9cf9-1db445a780ea",
+                            SprintId = "e8a02d41-d5ee-4608-b7dd-0442744dc49a",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 1",
@@ -259,8 +263,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                         },
                         new
                         {
-                            UserStoryId = "8dd1c464-aa70-4757-8587-1bee4596f4ab",
-                            SprintId = "1e90ebe3-b4c3-48f0-8a7b-45c801196b16",
+                            UserStoryId = "c22e988f-a693-48a7-a90c-aa152206fd4f",
+                            SprintId = "e8a02d41-d5ee-4608-b7dd-0442744dc49a",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 2",
@@ -268,8 +272,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                         },
                         new
                         {
-                            UserStoryId = "3919af6f-073b-4ad8-984f-0a30c73add7d",
-                            SprintId = "d4d0f9e7-dc04-4357-8445-eb3a422bb4f1",
+                            UserStoryId = "a09a5957-7dbd-4122-beb0-253c1d04c973",
+                            SprintId = "ce4fc6e4-1ac7-43d2-9f2e-ffa1b942c6da",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 3",
@@ -307,8 +311,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                         new
                         {
                             Id = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Name = "Scrum_Master",
+                            NormalizedName = "SCRUM_MASTER"
                         },
                         new
                         {
@@ -371,10 +375,12 @@ namespace AYZ8R9_SOF_202231.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -411,10 +417,12 @@ namespace AYZ8R9_SOF_202231.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
