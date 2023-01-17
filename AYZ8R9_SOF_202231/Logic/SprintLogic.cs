@@ -52,12 +52,13 @@ namespace AYZ8R9_SOF_202231.Logic
             {
                 return sprintRepo.GetOne(id);
             }
-            throw new ItemDoesNotExistException("The user id was wrong!");
+            throw new ItemDoesNotExistException("The sprint id was wrong!");
         }
 
         public IEnumerable<Sprint> GetAllSprints()
         {
             return sprintRepo.GetAll();
+            
         }
     }
 }
