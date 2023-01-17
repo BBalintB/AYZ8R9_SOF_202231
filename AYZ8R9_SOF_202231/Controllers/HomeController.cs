@@ -40,8 +40,10 @@ namespace AYZ8R9_SOF_202231.Controllers
         public async Task<IActionResult> GetImage(string userid)
         {
             var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
-            if (user != null)
+            if (user != null) 
+            {
                 return new FileContentResult(user.PhotoData, user.PhotoContentType);
+            }
             else
                 return View();
 
@@ -50,23 +52,23 @@ namespace AYZ8R9_SOF_202231.Controllers
 
 
 
-
         [Authorize(Roles = "Admin,Scrum_Master")]
-        public async Task<IActionResult> PromoteMaster() 
+        public async Task<IActionResult> PromoteMaster(string userId) 
         {
-            var actual = this.User;
-            var user = await _userManager.GetUserAsync(actual);
-            await _userManager.AddToRoleAsync(user, "Scrum_Master");
+            var toPromote = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
+            if (toPromote != null) 
+              await _userManager.AddToRoleAsync(toPromote, "Scrum_Master");
+
             return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DemoteMaster(string userId) 
         {
-            var item = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
-            if (item != null)
+            var toPromote = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
+            if (toPromote != null)
             {
-                await _userManager.RemoveFromRoleAsync(item, "Scrum_Master");
+                await _userManager.RemoveFromRoleAsync(toPromote, "Scrum_Master");
             }
 
             return RedirectToAction(nameof(Index));

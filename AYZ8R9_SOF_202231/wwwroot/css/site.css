@@ -57,3 +57,7 @@ align-content: center;
     justify-content: center;
     display: flex;
 }
+.nav-link text-dark {
+    text-align: center;
+    offset-distance: 10%;
+}

@@ -3,12 +3,7 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 
+<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Promote">Manage Developers</a>
 
 
-@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Scrum_Master") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
-{
-<li class="nav-item">
-    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Promote">Manage Masters</a>
-</li>
-}
 
