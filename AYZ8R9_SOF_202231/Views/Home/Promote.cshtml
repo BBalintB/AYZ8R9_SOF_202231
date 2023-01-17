@@ -1,16 +1,19 @@
 ﻿@using AYZ8R9_SOF_202231.Model
 @using Microsoft.AspNetCore.Identity
-@inject IEnumerable<AppUser> Users
+@inject UserManager<AppUser> UserManager
 
 <ul class="list-group">
-    @foreach (var user in Users)
-        {
-        <li class="list-group-item">
-            @user.LastName @user.FirstName
-            <button type="button" class="btn btn-warning" href="Home/PromoteMaster?uid=@user.Id">Promote</button>
-             
-            <button type="button" class="btn btn-danger" href="Home/DemoteMaster?uid=@user.Id">Demote</button>
 
-        </li>
-        }
+    @foreach (var user in UserManager.Users)
+        {
+        <div class="card" style="width: 18rem;">
+            <img src="@Url.Action("GetImage","Home", new {userid = @UserManager.GetUserId(User)})" onerror="alternative()" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">@user.LastName @user.FirstName</h5>
+                <p class="card-text">@UserManager.GetRolesAsync(user)</p>
+                <button type="button" class="btn btn-success" href="Home/PromoteMaster?uid=@user.Id">Promote to Scrum master</button>
+                <button type="button" class="btn btn-danger" href="Home/DemoteMaster?uid=@user.Id">Demote from Scrum master</button>
+            </div>
+        </div>
+         }
 </ul>

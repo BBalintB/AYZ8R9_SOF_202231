@@ -2,6 +2,7 @@ using AYZ8R9_SOF_202231.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AYZ8R9_SOF_202231.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ builder.Services.AddDbContext<SCRUMDbContext>(opt =>
 builder.Services.AddDefaultIdentity<AppUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
-    options.Password.RequireDigit = false;
+    options.Password.RequireDigit = true;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
@@ -37,7 +38,7 @@ builder.Services.AddAuthentication()
         opt.AppSecret = "5dcc3cdc5508c6e79f0f573821883d31";
     });
 
-//builder.Services.AddTransient<IEmailSender, EmailSender>();
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

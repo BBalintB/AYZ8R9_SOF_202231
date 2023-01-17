@@ -32,19 +32,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-
-                 
-                    
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Scrum_Master") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Promote">Manage Developers</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Scrum_Master") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
-                {
-                   <partial name="_PromotePartial" />
-                }
-            }
             <partial name="_LoginPartial" />
         </nav>
     </header>

@@ -50,13 +50,16 @@ namespace AYZ8R9_SOF_202231.Controllers
             
         }
 
-
+        public IActionResult Promote()
+        {
+            return View();
+        }
 
         [Authorize(Roles = "Admin,Scrum_Master")]
         public async Task<IActionResult> PromoteMaster(string userId) 
         {
             var toPromote = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
-            if (toPromote != null) 
+            if (toPromote != null /* and isnt in role? (possible problem) */) 
               await _userManager.AddToRoleAsync(toPromote, "Scrum_Master");
 
             return RedirectToAction(nameof(Index));
@@ -73,14 +76,6 @@ namespace AYZ8R9_SOF_202231.Controllers
 
             return RedirectToAction(nameof(Index));
 
-        }
-
-        [Authorize(Roles = "Admin,Scrum_Master")]
-        public IActionResult Promote() 
-        {
-
-
-            return View(_db.Users);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
