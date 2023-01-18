@@ -2,6 +2,7 @@ using AYZ8R9_SOF_202231.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AYZ8R9_SOF_202231.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ builder.Services.AddDbContext<SCRUMDbContext>(opt =>
 builder.Services.AddDefaultIdentity<AppUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
-    options.Password.RequireDigit = false;
+    options.Password.RequireDigit = true;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
@@ -33,17 +34,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddAuthentication()
     .AddFacebook(opt =>
     {
-        opt.AppId = "432880205364301";
-        opt.AppSecret = "057aabcf79ef365533cdab4cae0f3112";
-    })
-    .AddMicrosoftAccount(opt =>
-    {
-        opt.ClientId = "e31119ab-d694-44c7-928c-46da1588192c";
-        opt.ClientSecret = "yRG8Q~Z-AE88PwQudM0w_69-IGFiPFqRY.vOScJF";
-        opt.SaveTokens = true;
+        opt.AppId = "666379255279692";
+        opt.AppSecret = "5dcc3cdc5508c6e79f0f573821883d31";
     });
 
-//builder.Services.AddTransient<IEmailSender, EmailSender>();
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 

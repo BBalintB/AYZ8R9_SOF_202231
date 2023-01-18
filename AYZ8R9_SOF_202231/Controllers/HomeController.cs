@@ -29,39 +29,53 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [Authorize]
+        public async Task<IActionResult> Privacy()
         {
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
             return View();
         }
 
-        [Authorize(Roles = "Admin,Scrum_Master")]
-        public async Task<IActionResult> PromoteMaster() 
+        public async Task<IActionResult> GetImage(string userid)
         {
-            var actual = this.User;
-            var user = await _userManager.GetUserAsync(actual);
-            await _userManager.AddToRoleAsync(user, "Scrum_Master");
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            if (user != null) 
+            {
+                return new FileContentResult(user.PhotoData, user.PhotoContentType);
+            }
+            else
+                return View();
+
+            
+        }
+
+        public IActionResult Promote()
+        {
+            return View(_db.AppUsers);
+        }
+
+        [Authorize(Roles = "Admin,Scrum_Master")]
+        public async Task<IActionResult> PromoteMaster(string userId) 
+        {
+            var toPromote = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
+            if (toPromote != null /* and isnt in role? (possible problem) */) 
+              await _userManager.AddToRoleAsync(toPromote, "Scrum_Master");
+
             return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DemoteMaster(string userId) 
         {
-            var item = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
-            if (item != null)
+            var toPromote = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
+            if (toPromote != null)
             {
-                await _userManager.RemoveFromRoleAsync(item, "Scrum_Master");
+                await _userManager.RemoveFromRoleAsync(toPromote, "Scrum_Master");
             }
 
             return RedirectToAction(nameof(Index));
 
-        }
-
-        [Authorize(Roles = "Admin,Scrum_Master")]
-        public IActionResult Promote() 
-        {
-
-
-            return View(_db.Users);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

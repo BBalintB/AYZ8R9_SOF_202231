@@ -21,7 +21,6 @@ namespace AYZ8R9_SOF_202231.Data
         {
             PasswordHasher<AppUser> ph = new PasswordHasher<AppUser>();
 
-            #region Seeded_Data
             AppUser admin = new AppUser
             {
                 Id = Guid.NewGuid().ToString(),
@@ -30,10 +29,10 @@ namespace AYZ8R9_SOF_202231.Data
                 UserName = "admin@admin.com",
                 FirstName = "Big",
                 LastName = "Boss",
-                NormalizedUserName = "ADMIN",
+                NormalizedUserName = "ADMIN@ADMIN.com",
                 
             };
-            admin.PasswordHash = ph.HashPassword(admin, "pirosalma123");
+            admin.PasswordHash = ph.HashPassword(admin, "Pirosalma123!");
 
 
             Project TestProject = new Project() { ProjectName = "Test Project", OwnerId = admin.Id };
@@ -49,9 +48,7 @@ namespace AYZ8R9_SOF_202231.Data
 
             ProjectAppUser PA1 = new ProjectAppUser() { ProjectId = TestProject.ProjectId, AppUserId = admin.Id };
 
-            #endregion
 
-            #region TableConnections
             builder.Entity<Sprint>()
                 .HasOne(Sprint => Sprint.Project)
                 .WithMany(Project => Project.ProjectSprints)
@@ -91,13 +88,17 @@ namespace AYZ8R9_SOF_202231.Data
             builder.Entity<UserStory>().HasData(TestStory, TestStory1, TestStory2);
             builder.Entity<ProjectAppUser>().HasData(PA1);
 
-            #endregion
 
 
-            builder.Entity<IdentityRole>().HasData(
-              new { Id = "1", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" },
-              new { Id = "2", Name = "Customer", NormalizedName = "CUSTOMER" }
-            );
+            var adminr = new IdentityRole()
+            { Id = "1", Name = "Admin", NormalizedName = "ADMIN" };
+            var scrummaster = new IdentityRole()
+            { Id = "2", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" };
+            builder.Entity<IdentityRole>().HasData(adminr,scrummaster);
+
+            var fadmin = new IdentityUserRole<string>()
+            { RoleId = "1", UserId = admin.Id};
+            builder.Entity<IdentityUserRole<string>>().HasData(fadmin);
 
 
             base.OnModelCreating(builder);

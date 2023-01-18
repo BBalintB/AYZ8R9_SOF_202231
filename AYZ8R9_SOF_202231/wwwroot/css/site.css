@@ -21,7 +21,9 @@ body {
     margin: 3px;
     padding: 3px;
 }
-
+.form-floating {
+    padding:10px;
+}
 .idx_flexbox {
     text-align: center;
     align-self: center;
@@ -38,4 +40,24 @@ body {
     text-align: center !important;
     align-content: center;
     align-self: center !important;
+}
+.form-floating-Imagein {
+margin: 10px;
+padding: 5px;
+align-content: center;
+}
+
+.nav-hellobar-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+.nav-hellobar {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+.nav-link text-dark {
+    text-align: center;
+    offset-distance: 10%;
 }
