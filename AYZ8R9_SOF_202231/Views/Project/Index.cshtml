@@ -1,0 +1,15 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@{
+    ViewData["Title"] = "Projects";
+}
+
+@model IEnumerable<Project>
+
+<h1>Projects</h1>
+
+<a href="/project/create">Create a new project</a>
+
+@foreach(var project in Model)
+{
+    <h3>@project.ProjectName</h3>
+}

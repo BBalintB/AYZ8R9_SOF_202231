@@ -159,6 +159,9 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ProjectId", "AppUserId");
 
                     b.HasIndex("AppUserId");

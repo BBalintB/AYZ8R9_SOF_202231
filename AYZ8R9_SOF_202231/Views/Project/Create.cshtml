@@ -1,0 +1,16 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@{
+    ViewData["Title"] = "Projects";
+}
+
+@model Project
+
+<h1>Create a new project:</h1>
+
+<form action="create" method="post">
+     @Html.LabelFor(t => t.ProjectName)
+     @Html.EditorFor(t=>t.ProjectName)
+     @Html.ValidationMessageFor(t=>t.ProjectName)
+     <br />
+     <input type="submit" value="Create" />
+</form>

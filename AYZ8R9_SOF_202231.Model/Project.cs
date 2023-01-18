@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace AYZ8R9_SOF_202231.Model
 {
+    
     public class Project
     {
         [Key]

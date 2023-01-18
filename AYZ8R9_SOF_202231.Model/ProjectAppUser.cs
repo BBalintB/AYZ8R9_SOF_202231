@@ -11,8 +11,8 @@ namespace AYZ8R9_SOF_202231.Model
 {
     public class ProjectAppUser
     {
-        //[Key]
-        //public string ConnectionId { get; set; }
+        [Key]
+        public string ConnectionId { get; set; }
         [Required]
         public string AppUserId { get; set; }
         [Required]
@@ -23,9 +23,9 @@ namespace AYZ8R9_SOF_202231.Model
         [NotMapped]
         [JsonIgnore]
         public virtual Project Project { get; set; }
-        //public ProjectAppUser()
-        //{
-        //    ConnectionId = Guid.NewGuid().ToString();
-        //}
+        public ProjectAppUser()
+        {
+           ConnectionId = Guid.NewGuid().ToString();
+        }
     }
 }

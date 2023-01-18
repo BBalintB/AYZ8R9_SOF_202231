@@ -1,4 +1,5 @@
 ﻿using AYZ8R9_SOF_202231.Data;
+using AYZ8R9_SOF_202231.Logic;
 using AYZ8R9_SOF_202231.Model;
 using AYZ8R9_SOF_202231.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,13 +16,23 @@ namespace AYZ8R9_SOF_202231.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SCRUMDbContext _db;
+        private readonly IAppUserLogic appUserLogic;
+        private readonly IProjectLogic projectLogic;
+        private readonly ISprintLogic sprintLogic;
+        private readonly IUserStoryLogic storyLogic;
+        private readonly IProjectAppUserLogic paLogic;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db, IAppUserLogic appUserLogic, IProjectLogic projectLogic, ISprintLogic sprintLogic, IUserStoryLogic storyLogic, IProjectAppUserLogic paLogic)
         {
             _logger = logger;
             _userManager = userManager;
             _roleManager = roleManager;
             _db = db;
+            this.appUserLogic = appUserLogic;
+            this.projectLogic = projectLogic;
+            this.sprintLogic = sprintLogic;
+            this.storyLogic = storyLogic;
+            this.paLogic = paLogic;
         }
 
         public IActionResult Index()
