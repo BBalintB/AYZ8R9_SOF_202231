@@ -37,7 +37,6 @@ namespace AYZ8R9_SOF_202231.Controllers
 
         public IActionResult Index()
         {
-            var xy = appUserLogic.GetAllUsers();
             return View();
         }
 
