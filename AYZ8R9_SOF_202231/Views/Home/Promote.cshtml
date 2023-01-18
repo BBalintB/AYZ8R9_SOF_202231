@@ -1,10 +1,11 @@
 ﻿@using AYZ8R9_SOF_202231.Model
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
+@model IEnumerable<AppUser>
 
 <ul class="list-group">
 
-    @foreach (var user in UserManager.Users)
+    @foreach (var user in Model)
         {
         <div class="card" style="width: 18rem;">
             <img src="@Url.Action("GetImage","Home", new {userid = @UserManager.GetUserId(User)})" onerror="alternative()" class="card-img-top">

@@ -52,7 +52,7 @@ namespace AYZ8R9_SOF_202231.Controllers
 
         public IActionResult Promote()
         {
-            return View();
+            return View(_db.AppUsers);
         }
 
         [Authorize(Roles = "Admin,Scrum_Master")]
