@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Drawing;
 
 namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
 {
@@ -129,7 +131,11 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                     }
                     user.PhotoData = data;
                 }
-         
+                else
+                {
+                    user.PhotoContentType = "image/jpeg";
+                    user.PhotoData = imgToByteArray(Image.FromFile("DefaultProfile.jpg"));
+                }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -137,6 +143,7 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Developer");
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -192,6 +199,14 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<AppUser>)_userStore;
+        }
+        private byte[] imgToByteArray(Image img)
+        {
+            using (MemoryStream mStream = new MemoryStream())
+            {
+                img.Save(mStream, img.RawFormat);
+                return mStream.ToArray();
+            }
         }
     }
 }

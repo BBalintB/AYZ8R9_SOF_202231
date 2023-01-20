@@ -5,16 +5,38 @@
 
 <ul class="list-group">
 
-    @foreach (var user in Model)
-        {
-        <div class="card" style="width: 18rem;">
-            <img src="@Url.Action("GetImage","Home", new {userid = @UserManager.GetUserId(User)})" onerror="alternative()" class="card-img-top">
-            <div class="card-body">
-                <h5 class="card-title">@user.LastName @user.FirstName</h5>
-                <p class="card-text">@UserManager.GetRolesAsync(user)</p>
-                <button type="button" class="btn btn-success" href="Home/PromoteMaster?uid=@user.Id">Promote to Scrum master</button>
-                <button type="button" class="btn btn-danger" href="Home/DemoteMaster?uid=@user.Id">Demote from Scrum master</button>
-            </div>
-        </div>
-         }
+    @foreach (var user in Model.ToList())
+    {
+        
+                @if (UserManager.IsInRoleAsync(user, "Scrum_master").Result == true)
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                    <img class="nav-hellobar-img" id="logimg"src="@Url.Action("GetImage","Home", new {userid = user.Id})" />
+
+                        <h5 class="card-title">@user.LastName @user.FirstName <span class="badge bg-secondary">Scrum Master</span></h5>
+                        </div>
+                              
+                        @if (User.IsInRole("Admin"))
+                        {
+                           <a class="btn btn-danger" href="DemoteMaster?userId=@user.Id">Demote from Scrum master</a>
+                        }
+                    </div>
+                }
+         else if(UserManager.IsInRoleAsync(user, "Developer").Result == true)
+         {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                    <img class="nav-hellobar-img" id="logimg" src="@Url.Action("GetImage","Home", new {userid =user.Id})" />
+
+                    <h5 class="card-title">@user.LastName @user.FirstName <span class="badge bg-secondary">Developer</span></h5>
+
+                    </div>
+                <a class="btn btn-success" href="PromoteMaster?userId=@user.Id">Promote to Scrum master</a>
+
+                </div>
+        }
+       
+    }
+   
 </ul>

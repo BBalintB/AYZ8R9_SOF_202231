@@ -1,0 +1,16 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+
+
+<h2>Edit Profile Picture</h2>
+<div class="idx_flexbox">
+    <h3>Your Current Profile Picture:</h3>
+    <img class="img" id="logimg" src="@Url.Action("GetImage","Home", new {userid = User.Identity})" />
+</div>
+<form id="UpdatePictureForm" method="post" enctype="multipart/form-data" action="EditProfilePicsAction">
+            <div class="form-floating-Imagein">
+@*        <input asp-for="" type="file" action="EditProfilePicsAction" asp-controller="HomeController" />
+*@            </div>
+    <button type="submit" class="w-100 btn btn-lg btn-primary">Update</button>
+</form>

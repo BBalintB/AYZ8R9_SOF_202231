@@ -5,6 +5,7 @@ using AYZ8R9_SOF_202231.Data;
 using AYZ8R9_SOF_202231.Repository;
 using AYZ8R9_SOF_202231.Logic;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,8 +40,7 @@ builder.Services.AddAuthentication()
         opt.AppId = "666379255279692";
         opt.AppSecret = "5dcc3cdc5508c6e79f0f573821883d31";
     });
-
-    builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddTransient<IAppUserRepository, AppUserRepository>();
 builder.Services.AddTransient<IAppUserLogic, AppUserLogic>();
