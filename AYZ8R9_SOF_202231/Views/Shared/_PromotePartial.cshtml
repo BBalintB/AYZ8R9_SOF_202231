@@ -7,6 +7,7 @@
 @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Scrum_master")))
 {
        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Promote">Manage Developers</a>
+    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="EditProfilePic">Edit profile picture</a>
+
 }
-       <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="EditProfilePic">Edit profile picture</a>
 

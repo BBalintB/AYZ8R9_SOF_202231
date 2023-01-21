@@ -3,11 +3,15 @@ using AYZ8R9_SOF_202231.Logic;
 using AYZ8R9_SOF_202231.Model;
 using AYZ8R9_SOF_202231.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
+using System.Xml.Linq;
 
 namespace AYZ8R9_SOF_202231.Controllers
 {
@@ -22,6 +26,9 @@ namespace AYZ8R9_SOF_202231.Controllers
         private readonly ISprintLogic sprintLogic;
         private readonly IUserStoryLogic storyLogic;
         private readonly IProjectAppUserLogic paLogic;
+
+        [BindProperty]
+        public UglyInputModel Input { get; set; }
 
         public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db, IAppUserLogic appUserLogic, IProjectLogic projectLogic, ISprintLogic sprintLogic, IUserStoryLogic storyLogic, IProjectAppUserLogic paLogic)
         {
@@ -95,35 +102,27 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(Promote));
 
         }
-        public IActionResult EditProfilePics()
+        public IActionResult EditProfilePic()
         {
             return View();
         }
 
-        public async Task<IActionResult> EditProfilePicsAction(string userId)
+        public async Task<IActionResult> EditProfilePicAction()
         {
-            var toedit = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
-            
-
-
-            if (Input.File != null)
+            var toUpdate = _db.AppUsers.FirstOrDefault(u => u.Id == Input.CurrentUser);
+            if (toUpdate != null && Input.File != null)
             {
-                user.PhotoContentType = Input.File.ContentType;
+                toUpdate.PhotoContentType = Input.File.ContentType;
 
                 byte[] data = new byte[(int)Input.File.Length];
                 using (var stream = Input.File.OpenReadStream())
                 {
                     stream.Read(data, 0, data.Length);
                 }
-                user.PhotoData = data;
+                toUpdate.PhotoData = data;
+                _db.SaveChanges();
             }
-            else
-            {
-                user.PhotoContentType = "image/jpeg";
-                user.PhotoData = imgToByteArray(Image.FromFile("DefaultProfile.jpg"));
-            }
-
-            return RedirectToAction(nameof(EditProfilePics));
+            return RedirectToAction(nameof(EditProfilePic));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -131,5 +130,20 @@ namespace AYZ8R9_SOF_202231.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        private byte[] imgToByteArray(Image img)
+        {
+            using (MemoryStream mStream = new MemoryStream())
+            {
+                img.Save(mStream, img.RawFormat);
+                return mStream.ToArray();
+            }
+        }
+    }
+    public class UglyInputModel 
+    {
+        public string CurrentUser { get; set; }
+
+        [DataType(DataType.ImageUrl)]
+        public IFormFile File { get; set; }
     }
 }
