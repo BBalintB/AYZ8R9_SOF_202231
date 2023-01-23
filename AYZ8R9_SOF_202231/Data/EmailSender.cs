@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
         {
             using (SmtpClient client = new SmtpClient()
             {
-                Host = "smtp.gmail.com",
+                Host = "smtp.office365.com",
                 Port = 587,
-                UseDefaultCredentials = true,
+                UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("SBence@stud.uni-obuda.hu", "Megbuktamarhin1"),
+                Credentials = new NetworkCredential("sbence@stud.uni-obuda.hu", "Megbuktamarhin1"),
                 TargetName = "STARTTLS/smtp.office365.com",
                 EnableSsl = true
 
@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
             {
                 MailMessage message = new MailMessage()
                 {
-                    From = new MailAddress("SBence@stud.uni-obuda.hu"),
+                    From = new MailAddress("sbence@stud.uni-obuda.hu"),
                     Subject = subject,
                     IsBodyHtml = true,
                     Body = htmlMessage,

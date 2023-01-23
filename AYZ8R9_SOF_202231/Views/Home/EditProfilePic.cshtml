@@ -6,7 +6,7 @@
 
 <div>
     <h2>Your Current Profile Picture:</h2>
-    <img class="img" id="logimg" src="@Url.Action("GetImage","Home", new {userid = User.Identity})" onerror="alternative" />
+    <img class="img" id="logimg" src="@Url.Action("GetImage","Home", new {userid = @UserManager.GetUserId(User)})" onerror="alternative" />
 </div>
 <form asp-action="EditProfilePicAction" id="UpdatePictureForm" method="post" enctype="multipart/form-data">
             <div class="form-floating-Imagein">
