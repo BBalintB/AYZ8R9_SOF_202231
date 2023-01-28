@@ -3,6 +3,7 @@ using AYZ8R9_SOF_202231.Logic;
 using AYZ8R9_SOF_202231.Model;
 using AYZ8R9_SOF_202231.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -92,7 +93,10 @@ namespace AYZ8R9_SOF_202231.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var exceptionHandlerPathFeature =
+            HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var msg = exceptionHandlerPathFeature.Error.Message;
+            return View("Error", msg);
         }
     }
 }
