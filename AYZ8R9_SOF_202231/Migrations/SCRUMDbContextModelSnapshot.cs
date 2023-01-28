@@ -106,18 +106,18 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bb189d89-6deb-45b7-9f83-3901a4225286",
+                            Id = "64959a98-e31f-4d86-ac63-1cce79235550",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ed4a36e4-573d-41f0-b1d9-0355ff049fd7",
+                            ConcurrencyStamp = "99834752-2aae-4414-9357-2d9cec3e6028",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Big",
                             LastName = "Boss",
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@ADMIN.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBcUrD1J03nimedp0O0HPN/IxBafDhzLOxDriC1B2Aa53W9r1Sw+dUIMe0EmYqwXxQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPwVMZ4Cvtjo8nmnBjYwqRSYTT5dNr2A8MVncdI1RQK5ddOTB24Pw6wfw3Ey43DOcQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "539903b0-7e96-4547-b523-0081d4fa4753",
+                            SecurityStamp = "dace7d7c-f80f-4a51-9d3c-fe89e596f259",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -146,8 +146,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            ProjectId = "e3a14d4e-e67a-490d-bb49-9e2f64d227d5",
-                            OwnerId = "bb189d89-6deb-45b7-9f83-3901a4225286",
+                            ProjectId = "1789a7ef-fb93-4cab-a85e-3d6050026a26",
+                            OwnerId = "64959a98-e31f-4d86-ac63-1cce79235550",
                             ProjectName = "Test Project"
                         });
                 });
@@ -172,9 +172,9 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            ProjectId = "e3a14d4e-e67a-490d-bb49-9e2f64d227d5",
-                            AppUserId = "bb189d89-6deb-45b7-9f83-3901a4225286",
-                            ConnectionId = "f79b75d7-2b5e-40f9-8691-59b49ca95e7f"
+                            ProjectId = "1789a7ef-fb93-4cab-a85e-3d6050026a26",
+                            AppUserId = "64959a98-e31f-4d86-ac63-1cce79235550",
+                            ConnectionId = "fe60d1f3-cb53-4c22-adb3-d58b4377f9e1"
                         });
                 });
 
@@ -188,11 +188,13 @@ namespace AYZ8R9_SOF_202231.Migrations
 
                     b.Property<string>("SprintDueDate")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("SprintName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("SprintId");
 
@@ -203,22 +205,22 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            SprintId = "f6898f85-4b33-48a9-9528-42f26b96009c",
-                            ProjectId = "e3a14d4e-e67a-490d-bb49-9e2f64d227d5",
+                            SprintId = "8555e016-fac0-42eb-97ab-f08cb98dae26",
+                            ProjectId = "1789a7ef-fb93-4cab-a85e-3d6050026a26",
                             SprintDueDate = "2022.12.14",
                             SprintName = "Test Sprint"
                         },
                         new
                         {
-                            SprintId = "4e3a7ed4-6977-4d4a-9f2d-edb989bdf96b",
-                            ProjectId = "e3a14d4e-e67a-490d-bb49-9e2f64d227d5",
+                            SprintId = "0be36f37-6307-41cc-9664-cd65ec923c08",
+                            ProjectId = "1789a7ef-fb93-4cab-a85e-3d6050026a26",
                             SprintDueDate = "2022.12.24",
                             SprintName = "Test Sprint1"
                         },
                         new
                         {
-                            SprintId = "fa76b81d-9fcc-4eec-bf97-cb0bc1d2f7ac",
-                            ProjectId = "e3a14d4e-e67a-490d-bb49-9e2f64d227d5",
+                            SprintId = "99252fdf-6dda-4c99-a86a-8ea155cf1a48",
+                            ProjectId = "1789a7ef-fb93-4cab-a85e-3d6050026a26",
                             SprintDueDate = "2022.12.30",
                             SprintName = "Test Sprint2"
                         });
@@ -241,7 +243,8 @@ namespace AYZ8R9_SOF_202231.Migrations
 
                     b.Property<string>("UserStoryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<int>("UserStoryPriority")
                         .HasColumnType("int");
@@ -255,8 +258,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            UserStoryId = "85e863e8-5bcb-44ba-8ec4-0e76a0c6712b",
-                            SprintId = "f6898f85-4b33-48a9-9528-42f26b96009c",
+                            UserStoryId = "dded4d55-5a45-4f74-949f-a7ccdb28d45b",
+                            SprintId = "8555e016-fac0-42eb-97ab-f08cb98dae26",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 1",
@@ -264,8 +267,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                         },
                         new
                         {
-                            UserStoryId = "3c9122ab-f3e1-4826-a79b-b28696d96764",
-                            SprintId = "f6898f85-4b33-48a9-9528-42f26b96009c",
+                            UserStoryId = "0e1fe1d8-b3fd-4fb7-b189-d6bacc0b4c4f",
+                            SprintId = "8555e016-fac0-42eb-97ab-f08cb98dae26",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 2",
@@ -273,8 +276,8 @@ namespace AYZ8R9_SOF_202231.Migrations
                         },
                         new
                         {
-                            UserStoryId = "acec15a7-67de-4153-b506-e84bcbd48ca8",
-                            SprintId = "4e3a7ed4-6977-4d4a-9f2d-edb989bdf96b",
+                            UserStoryId = "6ace01c6-7341-4ca5-bd56-7a0c6c1ca66c",
+                            SprintId = "0be36f37-6307-41cc-9664-cd65ec923c08",
                             Status = 0,
                             UserStoryDescription = "Just a test",
                             UserStoryName = "Test user story 3",
@@ -312,16 +315,23 @@ namespace AYZ8R9_SOF_202231.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "558c4a7d-f641-4548-a139-eb84d19b9d43",
+                            ConcurrencyStamp = "0fe3b626-9391-4c2c-8b17-e692588b01ff",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "1ce9735b-08ab-4a8d-974d-e290143c0050",
+                            ConcurrencyStamp = "f204f12a-274a-45c0-93f4-5efc51077059",
                             Name = "Scrum_Master",
                             NormalizedName = "SCRUM_MASTER"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            ConcurrencyStamp = "37fcce2b-ee39-4eb4-b5eb-cc8c5fe65e95",
+                            Name = "Developer",
+                            NormalizedName = "DEVELOPER"
                         });
                 });
 
@@ -416,7 +426,7 @@ namespace AYZ8R9_SOF_202231.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "bb189d89-6deb-45b7-9f83-3901a4225286",
+                            UserId = "64959a98-e31f-4d86-ac63-1cce79235550",
                             RoleId = "1"
                         });
                 });
