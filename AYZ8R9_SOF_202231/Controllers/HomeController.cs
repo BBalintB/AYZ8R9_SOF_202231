@@ -108,7 +108,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
-        public async Task<IActionResult> EditProfilePicAction()
+        public async Task<IActionResult> EditProfilePicAction() // user várása ill, logicból update hívás
         {
             var toUpdate = _db.AppUsers.FirstOrDefault(u => u.Id == Input.CurrentUser);
             if (toUpdate != null && Input.File != null)
