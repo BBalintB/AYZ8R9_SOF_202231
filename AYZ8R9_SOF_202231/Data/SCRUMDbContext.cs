@@ -94,7 +94,9 @@ namespace AYZ8R9_SOF_202231.Data
             { Id = "1", Name = "Admin", NormalizedName = "ADMIN" };
             var scrummaster = new IdentityRole()
             { Id = "2", Name = "Scrum_Master", NormalizedName = "SCRUM_MASTER" };
-            builder.Entity<IdentityRole>().HasData(adminr,scrummaster);
+            var developr = new IdentityRole()
+            { Id = "3", Name = "Developer", NormalizedName = "DEVELOPER" };
+            builder.Entity<IdentityRole>().HasData(adminr,scrummaster, developr);
 
             var fadmin = new IdentityUserRole<string>()
             { RoleId = "1", UserId = admin.Id};

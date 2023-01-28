@@ -35,7 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Project\Style\" />
+    <None Update="DefaultProfile.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,20 @@
+﻿@using AYZ8R9_SOF_202231.Controllers;
+@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@model UglyInputModel
+
+<div>
+    <h2>Your Current Profile Picture:</h2>
+    <img class="img" id="logimg" src="@Url.Action("GetImage","Home", new {userid = @UserManager.GetUserId(User)})" onerror="alternative" />
+</div>
+<form asp-action="EditProfilePicAction" id="UpdatePictureForm" method="post" enctype="multipart/form-data">
+            <div class="form-floating-Imagein">
+        <input asp-for="CurrentUser" hidden  type="text" value="@UserManager.GetUserId(User)" action="EditProfilePicsAction" asp-controller="HomeController"/>
+
+        <input asp-for="File" type="file" action="EditProfilePicsAction" asp-controller="HomeController" accept=".png, .jpg, .jpeg" />
+        <span asp-validation-for="File" class="text-danger"></span>
+
+            </div>
+    <button type="submit" class="w-100 btn btn-lg btn-primary">Update</button>
+</form>
