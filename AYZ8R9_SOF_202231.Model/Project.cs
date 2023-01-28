@@ -16,19 +16,18 @@ namespace AYZ8R9_SOF_202231.Model
         [Required]
         public string ProjectId { get; set; }
         [Required]
+        [StringLength(20,ErrorMessage ="The project name has to be shorter than 20 characters")]
         public string ProjectName { get; set; }
 
         [ForeignKey(nameof(AppUser))]
         public string OwnerId { get; set; }
 
         [NotMapped]
-        public virtual AppUser Owner { get; set; }
+        public virtual AppUser? Owner { get; set; }
         [NotMapped]
-        [JsonIgnore]
         public virtual ICollection<ProjectAppUser> ProjectUsers { get; set; }
 
         [NotMapped]
-        [JsonIgnore]
         public virtual ICollection<Sprint> ProjectSprints{ get; set; }
 
         public Project()

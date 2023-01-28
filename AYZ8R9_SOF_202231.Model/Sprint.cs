@@ -15,8 +15,12 @@ namespace AYZ8R9_SOF_202231.Model
         [Required]
         public string SprintId { get; set; }
         [Required]
+        [StringLength(20,ErrorMessage = "The name of the sprint has to be less then 20 character")]
         public string SprintName { get; set; }
         [Required]
+        [MinLength(8,ErrorMessage = "The date has to be minimum 8 character long")]
+        [MaxLength(10,ErrorMessage = "The date can't be longer than 10 charcter")]
+        
         public string SprintDueDate { get; set; }
         [ForeignKey(nameof(Project))]
         public string? ProjectId { get; set; }
