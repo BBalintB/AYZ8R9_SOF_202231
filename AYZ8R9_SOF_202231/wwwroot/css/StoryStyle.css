@@ -1,0 +1,51 @@
+﻿.sprint-designs {
+    margin: 2%;
+    float: left;
+    width: 40%;
+    padding: 2%;
+}
+
+.story-design {
+    margin: 2%;
+    float: right;
+    width: 40%;
+    padding: 2%;
+}
+
+.backlog-story-design {
+    width:60%;
+    margin:auto;
+}
+
+.usa {
+    text-decoration: none;
+    color: black;
+    float: right;
+}
+
+#desc {
+    display:none;
+    padding:1%;
+    margin-bottom:1%;
+    border:2px solid black;
+}
+
+.backlogButton {
+    width: 100%;
+    margin-bottom: 1%;
+}
+
+.storyTableCard {
+    margin:10%;
+    
+}
+
+.topRowStyle{
+    text-align:center;
+    border-left: 1px solid black;
+}
+
+.columnStyle {
+    width: 20%;
+    float: left;
+}

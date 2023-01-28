@@ -1,0 +1,10 @@
+﻿.pa {
+    text-decoration:none;
+    color:black;
+}
+
+.card {
+    background-color:lightgray;
+    font-size:110%;
+    margin-bottom: 1%;
+}

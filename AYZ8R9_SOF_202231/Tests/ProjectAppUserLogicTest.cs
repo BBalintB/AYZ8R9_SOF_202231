@@ -33,7 +33,7 @@ namespace AYZ8R9_SOF_202231.Tests
         [Test]
         public void PAConnectionDoesNotExistExceptionThrown()
         {
-            var xy = Assert.Throws<ItemDoesNotExistException>(() => logic.DeletePA("24"));
+            var xy = Assert.Throws<ItemDoesNotExistException>(() => logic.DeletePA("24","16"));
         }
 
         private IQueryable<ProjectAppUser> FakeProject()

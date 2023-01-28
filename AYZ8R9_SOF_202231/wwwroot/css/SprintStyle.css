@@ -1,0 +1,12 @@
+﻿.sprintTable {
+    text-align:center;
+}
+
+.ps {
+    text-decoration: none;
+    color: black;
+}
+
+#createSprint {
+    /*display:none;*/
+}

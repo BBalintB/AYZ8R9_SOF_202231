@@ -59,6 +59,8 @@ builder.Services.AddTransient<IProjectAppUserLogic, ProjectAppUserLogic>();
 
 var app = builder.Build();
 
+app.UseExceptionHandler("/Home/Error");
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
