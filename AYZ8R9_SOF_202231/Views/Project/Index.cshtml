@@ -1,15 +1,39 @@
 ﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
 @{
     ViewData["Title"] = "Projects";
 }
+
+
 
 @model IEnumerable<Project>
 
 <h1>Projects</h1>
 
-<a href="/project/create">Create a new project</a>
+<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/project/create">Create a new project</a>
 
 @foreach(var project in Model)
 {
-    <h3>@project.ProjectName</h3>
+    <div class="card">
+        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Scrum_Master")))
+        {
+            <div class="card-body">
+                <a class="pa" href="/sprint/opensprint?id=@project.ProjectId">@project.ProjectName </a>
+                <div style="float:right"><a class="fa-solid fa-pencil pa" href="/project/change?id=@project.ProjectId"> </a><a class="fa-solid fa-trash pa" href="/project/deleteproject?id=@project.ProjectId"></a><a class="fa-solid fa-plus pa" href="/project/signup?id=@project.ProjectId"> </a><a class="fa-solid fa-minus pa" href="/project/signdown?id=@project.ProjectId"> </a></div>
+                <div>Number of sign ups @project.ProjectUsers.Count</div>
+            </div>
+            
+        }
+        else
+        {
+            <div style="text-align:center">@project.ProjectName <a class="fa-solid fa-plus" href="/project/signup?id=@project.ProjectId"> </a><a class="fa-solid fa-minus" href="/project/signdown?id=@project.ProjectId"> </a></div>
+        }
+
+        
+
+    </div>
+    
 }

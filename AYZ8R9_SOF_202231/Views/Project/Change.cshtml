@@ -1,0 +1,27 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Update project";
+}
+@inject UserManager<AppUser> UserManager
+@model Project
+
+<h1>Update the project:</h1>
+<br />
+@Html.ValidationSummary()
+<form action="change" method="post">
+
+     <div class="form-group">
+         <label style="margin-bottom:1%;font-size:110%">Project name:</label>
+         <br />
+         <input type="text" name="projectname" value="@Model?.ProjectName" required maxlength="20" />
+     </div>
+     
+     
+     <input type="hidden" name="ownerid" value="@Model.OwnerId"/>
+     <input type="hidden" name="projectid" value="@Model.ProjectId"/>
+     
+     <br />
+    <input class="btn btn-secondary" type="submit" value="Update" />
+</form>
+

@@ -1,16 +1,24 @@
-﻿@using AYZ8R9_SOF_202231.Model
+﻿
+@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
 @{
-    ViewData["Title"] = "Projects";
+    ViewData["Title"] = "Create project";
 }
-
+@inject UserManager<AppUser> UserManager
 @model Project
 
-<h1>Create a new project:</h1>
-
+<h1>Create a new project</h1>
+<br />
+@Html.ValidationSummary()
 <form action="create" method="post">
-     @Html.LabelFor(t => t.ProjectName)
-     @Html.EditorFor(t=>t.ProjectName)
-     @Html.ValidationMessageFor(t=>t.ProjectName)
+    <div class="form-group">
+         <label style="margin-bottom:1%;font-size:110%">Project name:</label>
+         <br />
+         <input type="text" name="projectname" value="@Model?.ProjectName" required maxlength="20" autofocus placeholder="Enter project name!"/>
+    </div>
+    
+     <input type="hidden" name="ownerid" value="@UserManager.GetUserId(User)"/>
+     
      <br />
-     <input type="submit" value="Create" />
+     <input class="btn btn-secondary" type="submit" value="Create" />
 </form>

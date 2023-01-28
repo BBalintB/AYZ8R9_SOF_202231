@@ -1,0 +1,27 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@{
+    ViewData["Title"] = "Create story";
+}
+@model UserStory
+
+<h1>Create a new story</h1>
+@Html.ValidationSummary()
+<form action="create" method="post">
+     <label>Story name:</label>
+     <br />
+    <input type="text" name="userstoryname" required maxlength="30" autofocus placeholder="Enter story name!" value="@Model?.UserStoryName"/>
+     <br />
+     <label>Description:</label>
+     <br />
+    <input type="text" name="userstorydescription" size="50" required value="@Model?.UserStoryDescription"/>
+     <br />
+     <label>Priority (1-25):</label>
+     <br />
+    <input type="number" name="userstorypriority" min="1" max="25" required value="@Model?.UserStoryPriority" />
+     <br />
+
+    <input type="hidden" name="status" value="@UserStoryStatus.Backlog" />
+
+     <br />
+    <input class="btn btn-secondary" role="button" type="submit" value="Create" />
+</form>

@@ -1,0 +1,30 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Update sprint";
+}
+@inject UserManager<AppUser> UserManager
+@model UserStory
+
+<h1>Update the story:</h1>
+@Html.ValidationSummary()
+<form action="change" method="post">
+    <label>Story name:</label>
+    <br />
+    <input type="text" name="userstoryname" value="@Model.UserStoryName" maxlength="30" autofocus required />
+    <br />
+    <label>Description:</label>
+    <br />
+    <input type="text" name="userstorydescription" size="50" value="@Model.UserStoryDescription" required />
+    <br />
+    <label>Priority:</label>
+    <br />
+    <input type="number" name="userstorypriority" min="1" max="25" required value="@Model?.UserStoryPriority" />
+    <br />
+
+    <input type="hidden" name="status" value="@Model.Status" />
+    <input type="hidden" name="userstoryid" value="@Model.UserStoryId" />
+
+    <br />
+    <input class="btn btn-secondary" role="button" type="submit" value="Change" />
+</form>

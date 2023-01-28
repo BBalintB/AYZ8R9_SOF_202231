@@ -1,0 +1,164 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    ViewData["Title"] = "Sprint Kanban";
+}
+
+@model IEnumerable<UserStory>
+
+<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Story/StoriesToSprint">Manage stories</a>
+
+<div style="margin-bottom:10%">
+    <div class="columnStyle">
+        <h4 class="topRowStyle">Sprint Backlog</h4>
+        <hr />
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Backlog))
+        {
+            <div class="card storyTableCard">
+                <div class="card-body">
+                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                    <p>@item.UserStoryDescription</p>
+                    <p>@item.UserStoryPriority</p>
+                    <form method="post" action="/story/status">
+                        <select name="status">
+                            @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
+                            {
+                                <option value="@days">@days</option>
+                            }
+                        </select>
+                        <input type="hidden" name="userstoryid" value="@item.UserStoryId" />
+                        <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
+                        <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
+                        <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
+                        <input type="submit" value="Add to status" />
+                    </form>
+                </div>
+                
+            </div>
+
+        }
+    </div>
+
+    <div class="columnStyle">
+        <h4 class="topRowStyle">To Do</h4>
+        <hr />
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.ToDo))
+        {
+            <div class="card storyTableCard">
+                <div class="card-body">
+                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                    <p>@item.UserStoryDescription</p>
+                    <p>@item.UserStoryPriority</p>
+                    <form method="post" action="/story/status">
+                        <select name="status">
+                            @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
+                            {
+                                <option value="@days">@days</option>
+                            }
+                        </select>
+                        <input type="hidden" name="userstoryid" value="@item.UserStoryId" />
+                        <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
+                        <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
+                        <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
+                        <input type="submit" value="Add to status" />
+                    </form>
+                </div>
+
+            </div>
+        }
+    </div>
+
+    <div class="columnStyle">
+        <h4 class="topRowStyle">In progress</h4>
+        <hr />
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.In_Progress))
+        {
+            <div class="card storyTableCard">
+                <div class="card-body">
+                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                    <p>@item.UserStoryDescription</p>
+                    <p>@item.UserStoryPriority</p>
+                    <form method="post" action="/story/status">
+                        <select name="status">
+                            @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
+                            {
+                                <option value="@days">@days</option>
+                            }
+                        </select>
+                        <input type="hidden" name="userstoryid" value="@item.UserStoryId" />
+                        <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
+                        <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
+                        <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
+                        <input type="submit" value="Add to status" />
+                    </form>
+                </div>
+
+            </div>
+        }
+    </div>
+
+    <div class="columnStyle">
+        <h4 class="topRowStyle">Verify</h4>
+        <hr />
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Verify))
+        {
+            <div class="card storyTableCard">
+                <div class="card-body">
+                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                    <p>@item.UserStoryDescription</p>
+                    <p>@item.UserStoryPriority</p>
+                    <form method="post" action="/story/status">
+                        <select name="status">
+                            @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
+                            {
+                                <option value="@days">@days</option>
+                            }
+                        </select>
+                        <input type="hidden" name="userstoryid" value="@item.UserStoryId" />
+                        <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
+                        <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
+                        <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
+                        <input type="submit" value="Add to status" />
+                    </form>
+                </div>
+
+            </div>
+        }
+    </div>
+
+    <div class="columnStyle">
+        <h4 class="topRowStyle" style="border-right: 1px solid black;">Done</h4>
+        <hr />
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Done))
+        {
+            <div class="card storyTableCard">
+                <div class="card-body">
+                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                    <p>@item.UserStoryDescription</p>
+                    <p>@item.UserStoryPriority</p>
+                    <form method="post" action="/story/status">
+                        <select name="status">
+                            @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
+                            {
+                                <option value="@days">@days</option>
+                            }
+                        </select>
+                        <input type="hidden" name="userstoryid" value="@item.UserStoryId" />
+                        <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
+                        <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
+                        <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
+                        <input type="submit" value="Add to status" />
+                    </form>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+
+
+

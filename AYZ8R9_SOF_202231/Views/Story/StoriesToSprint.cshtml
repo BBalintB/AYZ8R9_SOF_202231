@@ -1,0 +1,39 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    ViewData["Title"] = "Stories";
+}
+
+@model StoryPass
+
+<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Sprint/Index">Continue</a>
+<div>
+    <div class="sprint-designs">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">@Model.Sprint.SprintName</p>
+                <p>Sprint due date: @Model.Sprint.SprintDueDate</p>
+                <p>Number of user stories: @Model.Sprint.UserStories.Count</p>
+            </div>
+        </div>
+        
+    </div>
+    <div class="story-design">
+        @foreach (var item in Model.Stories)
+        {
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-title">@item.UserStoryName <a class="fa-solid fa-plus usa" href="/story/addtosprint?sprintid=@Model.Sprint.SprintId&storyid=@item.UserStoryId"> </a></p>
+                        <p>@item.UserStoryDescription</p>
+                        <p>@item.UserStoryPriority</p>
+                        
+                    </div>
+                    
+                </div>
+
+        }
+    </div>
+</div>

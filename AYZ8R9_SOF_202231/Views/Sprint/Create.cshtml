@@ -1,0 +1,38 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@{
+    ViewData["Title"] = "Create sprint";
+}
+@model Sprint
+
+<h1>Create a new project:</h1>
+<br />
+@Html.ValidationSummary()
+<form action="create" method="post">
+    <label style="margin-bottom:1%;font-size:110%">Sprint name:</label>
+     <input type="text" name="sprintname" id="sprintname" required maxlength="20" autofocus placeholder="Enter sprint name!" />
+     <br />
+     <div id="createSprint">
+        <label style="margin-bottom:1%;font-size:110%">Sprint due date:</label>
+        <input type="date" name="sprintduedate" id="minDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+
+        <br />
+        <input class="btn btn-secondary" type="submit" value="Create" />
+     </div>
+    
+</form>
+
+<script>
+    function minDate(){
+        const date = new Date();
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        let currentDate = `${year}.${month}.${day}`;
+
+        console.log(currentDate);
+        document.getElementById("minDate").setAttribute("value",currentDate);
+    }
+
+</script>

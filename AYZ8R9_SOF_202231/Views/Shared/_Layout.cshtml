@@ -9,16 +9,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AYZ8R9_SOF_202231</title>
+    <title>@ViewData["Title"] - Scrummer</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ProjectStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/SprintStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/StoryStyle.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AYZ8R9_SOF_202231.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AYZ8R9_SOF_202231</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Scrummer</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,19 +35,29 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
-                        </li>
+                        
 
 
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Scrum_Master") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+                            @*if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Scrum_Master") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
                             {
+                                
+                            }*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index" >Projects</a>
+                            </li>
+
+                            if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Story" asp-action="Index">Backlog</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Promote">Manage Developers</a>
                                 </li>
                             }
+                            
                         }
                     </ul>
                 </div>
@@ -66,6 +79,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/40045100fe.js" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,23 @@
+﻿@using AYZ8R9_SOF_202231.Model
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Update sprint";
+}
+@inject UserManager<AppUser> UserManager
+@model Sprint
+
+<h1>Update the project:</h1>
+<br />
+@Html.ValidationSummary()
+<form action="change" method="post">
+    <label style="margin-bottom:1%;font-size:110%">Sprint name: </label>
+    <input type="text" name="sprintname" maxlength="20" value="@Model?.SprintName" required />
+    <br />
+    <label style="margin-bottom:1%;font-size:110%">Sprint due date:</label>
+    <input type="date" name="sprintduedate" min="2023-01-22" value="@Model?.SprintDueDate" required />
+    
+    <input type="hidden" name="sprintid" value="@Model.SprintId" />
+
+    <br />
+    <input class="btn btn-secondary" type="submit" value="Update" />
+</form>
