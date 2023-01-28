@@ -19,7 +19,7 @@ namespace AYZ8R9_SOF_202231.Logic
             var user = GetOneUser(newAppUser.Id);
             if (user != null)
             {
-                userRepo.Change(user);
+                userRepo.Change(newAppUser);
             }
             else
             {

@@ -18,7 +18,7 @@ namespace AYZ8R9_SOF_202231.Logic
             var sprint = GetOneSprint(newSprint.SprintId);
             if (sprint != null)
             {
-                sprintRepo.Change(sprint);
+                sprintRepo.Change(newSprint);
             }
             else
             {
@@ -60,5 +60,7 @@ namespace AYZ8R9_SOF_202231.Logic
             return sprintRepo.GetAll();
             
         }
+
+        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AYZ8R9_SOF_202231.Logic.Exceptions;
 using AYZ8R9_SOF_202231.Model;
 using AYZ8R9_SOF_202231.Repository;
+using Microsoft.Extensions.Primitives;
 
 namespace AYZ8R9_SOF_202231.Logic
 {
@@ -27,12 +28,12 @@ namespace AYZ8R9_SOF_202231.Logic
 
         }
 
-        public void DeletePA(string id)
+        public void DeletePA(string projectId,string userId)
         {
-            var pa = GetOnePA(id);
+            var pa = GetAllPA().FirstOrDefault(ipa => ipa.AppUserId == userId && ipa.ProjectId == projectId);
             if (pa != null)
             {
-                paRepo.Delete(id);
+                paRepo.Delete(pa.ConnectionId);
             }
             else
             {

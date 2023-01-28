@@ -1,6 +1,7 @@
 ﻿using AYZ8R9_SOF_202231.Logic.Exceptions;
 using AYZ8R9_SOF_202231.Model;
 using AYZ8R9_SOF_202231.Repository;
+using System.Collections.Immutable;
 
 namespace AYZ8R9_SOF_202231.Logic
 {
@@ -18,7 +19,7 @@ namespace AYZ8R9_SOF_202231.Logic
             var story = GetOneStory(newStory.UserStoryId);
             if (story != null)
             {
-                userStoryRepo.Change(story);
+                userStoryRepo.Change(newStory);
             }
             else
             {
@@ -57,7 +58,26 @@ namespace AYZ8R9_SOF_202231.Logic
 
         public IEnumerable<UserStory> GetAllStories()
         {
-            return userStoryRepo.GetAll();
+            var xy = userStoryRepo.GetAll();
+            return xy;
+        }
+
+        public void AddToSprint(string sprintID, string storyID)
+        {
+            if (sprintID == null)
+            {
+                throw new ItemDoesNotExistException("The sprint id cant be null");
+            }
+            var story = GetOneStory(storyID);
+            story.SprintId = sprintID;
+            ChangeStory(story);
+        }
+
+        public void RemoveFromSprint(string storyID)
+        {
+            var story = GetOneStory(storyID);
+            story.SprintId = null;
+            ChangeStory(story);
         }
     }
 }

@@ -15,10 +15,10 @@ namespace AYZ8R9_SOF_202231.Logic
 
         public void ChangeProject(Project newProject)
         {
-            var user = GetOneProject(newProject.ProjectId);
-            if (user != null)
+            var project = GetOneProject(newProject.ProjectId);
+            if (project != null)
             {
-                projectRepository.Change(user);
+                projectRepository.Change(newProject);
             }
             else
             {
@@ -35,33 +35,33 @@ namespace AYZ8R9_SOF_202231.Logic
             }
             else
             {
-                throw new ItemAlreadyExistException("The user is already exist!");
+                throw new ItemAlreadyExistException("The project is already exist!");
             }
 
         }
 
         public void DeleteProject(string id)
         {
-            var user = GetOneProject(id);
-            if (user != null)
+            var project = GetOneProject(id);
+            if (project != null)
             {
                 projectRepository.Delete(id);
             }
             else
             {
-                throw new ItemDoesNotExistException("The user does not exist!");
+                throw new ItemDoesNotExistException("The project does not exist!");
             }
 
         }
 
         public Project GetOneProject(string id)
         {
-            var user = GetAllProjects().FirstOrDefault(x => x.ProjectId == id);
-            if (user != null)
+            var project = GetAllProjects().FirstOrDefault(x => x.ProjectId == id);
+            if (project != null)
             {
                 return projectRepository.GetOne(id);
             }
-            throw new ItemDoesNotExistException("The user id was wrong!");
+            throw new ItemDoesNotExistException("The project id was wrong!");
         }
 
         public IEnumerable<Project> GetAllProjects()
@@ -73,8 +73,8 @@ namespace AYZ8R9_SOF_202231.Logic
         #region Validation
         private bool IsTheProjectExist(Project project)
         {
-            var user = GetAllProjects().FirstOrDefault(Project => Project.ProjectName == project.ProjectName && Project.Owner.UserName == project.Owner.UserName);
-            return user == null ? true : false;
+            var proj = GetAllProjects().FirstOrDefault(Project => Project.ProjectName == project.ProjectName && Project.Owner.UserName == project.Owner.UserName);
+            return proj == null ? true : false;
         }
         #endregion
     }
