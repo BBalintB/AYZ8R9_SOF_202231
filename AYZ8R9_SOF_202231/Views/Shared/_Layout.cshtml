@@ -40,10 +40,6 @@
 
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            @*if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Scrum_Master") || await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
-                            {
-                                
-                            }*@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index" >Projects</a>
                             </li>
@@ -61,7 +57,6 @@
                         }
                     </ul>
                 </div>
-                <partial name="_PromotePartial" />
             </div>
             <partial name="_LoginPartial" />
         </nav>
