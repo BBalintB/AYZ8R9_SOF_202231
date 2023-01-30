@@ -16,7 +16,14 @@ namespace AYZ8R9_SOF_202231.Logic
 
         public void CreatePA(ProjectAppUser newPA)
         {
-
+            if (newPA.Project.ProjectUsers.Count >= 10)
+            {
+                throw new ProjectAlreadyFullException("The project already has 10 member team!");
+            }
+            if (newPA.User.UserName == newPA.Project.Owner.UserName)
+            {
+                throw new ItemAlreadyExistException("The owner cant sign up for his own project!");
+            }
             if (IsTheUserExist(newPA))
             {
                 paRepo.Create(newPA);

@@ -22,7 +22,7 @@ namespace AYZ8R9_SOF_202231.Logic
             }
             else
             {
-                throw new ItemDoesNotExistException("The user does not exist!");
+                throw new ItemDoesNotExistException("The project does not exist!");
             }
         }
 
