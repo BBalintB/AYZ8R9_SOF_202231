@@ -1,6 +1,7 @@
 ﻿using AYZ8R9_SOF_202231.Data;
 using AYZ8R9_SOF_202231.Logic;
 using AYZ8R9_SOF_202231.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -25,6 +26,7 @@ namespace AYZ8R9_SOF_202231.Controllers
 
         private static string SprintId { get; set; }
 
+        [Authorize]
         [HttpGet]
         public IActionResult OpenStory(string id)
         {
@@ -32,10 +34,13 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(SprintViewIndex));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_db.UserStories.Where(story => story.Sprint == null));
         }
+        [Authorize]
         [HttpGet]
         public IActionResult StoriesToSprint(string? id)
         {
@@ -48,23 +53,26 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View(storyPass);
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         public IActionResult AddToSprint(string sprintid, string storyid)
         { 
             storyLogic.AddToSprint(sprintid, storyid);
             return RedirectToAction(nameof(StoriesToSprint), new {id = sprintid});
         }
-
+        [Authorize(Roles = "Admin,Scrum_Master")]
         public IActionResult RemoveFromSprint(string id)
         {
             storyLogic.RemoveFromSprint(id);
             return RedirectToAction(nameof(SprintViewIndex));
         }
 
+        [Authorize]
         public IActionResult SprintViewIndex()
         {
             return View(_db.UserStories.Where(stories => stories.SprintId == SprintId));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult CreateInSprint()
         {
@@ -72,6 +80,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpPost]
         public IActionResult CreateInSprint(UserStory story)
         {
@@ -88,6 +97,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -95,6 +105,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpPost]
         public IActionResult Create(UserStory story)
         {
@@ -108,6 +119,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult DeleteStory(string id)
         {
@@ -115,6 +127,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Status(UserStory newStatus)
         {
@@ -123,6 +136,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(SprintViewIndex));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult Change(string id)
         {
@@ -130,6 +144,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View(story);
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpPost]
         public IActionResult Change(UserStory story)
         {

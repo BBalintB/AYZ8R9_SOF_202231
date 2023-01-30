@@ -2,8 +2,10 @@
 using AYZ8R9_SOF_202231.Logic;
 using AYZ8R9_SOF_202231.Logic.Exceptions;
 using AYZ8R9_SOF_202231.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AYZ8R9_SOF_202231.Controllers
 {
@@ -23,12 +25,14 @@ namespace AYZ8R9_SOF_202231.Controllers
             this.sprintLogic = sprintLogic;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View(_db.Sprints.Where(sprint => sprint.ProjectId == ProjectId));
+            var tmp = _db.Sprints.Where(sprint => sprint.ProjectId == ProjectId).ToList().OrderByDescending(x => DateTime.Parse(x.SprintDueDate)).ToList();
+            return View(tmp);
         }
 
-
+        [Authorize]
         [HttpGet]
         public IActionResult OpenSprint(string id)
         {
@@ -36,6 +40,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -43,6 +48,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpPost]
         public IActionResult Create(Sprint sprint)
         {
@@ -70,6 +76,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction("StoriesToSprint","Story",new { id = sprint.SprintId });
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult DeleteSprint(string id)
         {
@@ -77,6 +84,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult Change(string id)
         {
@@ -84,6 +92,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View(sprint);
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpPost]
         public async Task<IActionResult> Change(Sprint sprint)
         {
