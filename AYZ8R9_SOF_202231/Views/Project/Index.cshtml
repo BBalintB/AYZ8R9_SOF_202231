@@ -12,24 +12,43 @@
 @model IEnumerable<Project>
 
 <h1>Projects</h1>
-
-<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/project/create">Create a new project</a>
-
+@if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+{
+    <a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/project/create">Create a new project</a>
+}
 @foreach(var project in Model)
 {
     <div class="card">
-        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Scrum_Master")))
+        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
         {
             <div class="card-body">
                 <a class="pa" href="/sprint/opensprint?id=@project.ProjectId">@project.ProjectName </a>
                 <div style="float:right"><a class="fa-solid fa-pencil pa" href="/project/change?id=@project.ProjectId"> </a><a class="fa-solid fa-trash pa" href="/project/deleteproject?id=@project.ProjectId"></a><a class="fa-solid fa-plus pa" href="/project/signup?id=@project.ProjectId"> </a><a class="fa-solid fa-minus pa" href="/project/signdown?id=@project.ProjectId"> </a></div>
-                <div>Number of sign ups @project.ProjectUsers.Count</div>
+                <br />
+                <a class="pa" role="button" onclick="myFunction('@project.ProjectId.Substring(0,5)')">Number of sign ups @project.ProjectUsers.Count</a>
+                <div class="@project.ProjectId.Substring(0,5)" id="users" style="display:none">
+                    @foreach(var users in project.ProjectUsers)
+                    {
+                        <div>@users.User.UserName</div>
+                    }
+                </div>
             </div>
             
         }
         else
         {
-            <div style="text-align:center">@project.ProjectName <a class="fa-solid fa-plus" href="/project/signup?id=@project.ProjectId"> </a><a class="fa-solid fa-minus" href="/project/signdown?id=@project.ProjectId"> </a></div>
+            <div class="card-body">
+                <a class="pa" href="/sprint/opensprint?id=@project.ProjectId">@project.ProjectName </a>
+                <div style="float:right">
+                    @if (project.ProjectUsers.Count <= 10)
+                    {
+                        <a class="fa-solid fa-plus pa" href="/project/signup?id=@project.ProjectId"> </a>
+                    }
+                    <a class="fa-solid fa-minus pa" href="/project/signdown?id=@project.ProjectId"> </a>
+                </div>
+                <div>Number of sign ups @project.ProjectUsers.Count</div>
+                
+            </div>
         }
 
         
@@ -37,3 +56,16 @@
     </div>
     
 }
+
+<script>
+    function myFunction(cl) {
+        var x = document.getElementsByClassName(cl);
+        for (var i = 0; i < x.length; i++) {
+            if (x[i].style.display == "none") {
+                x[i].style.display = "block";
+            } else {
+                x[i].style.display = "none";
+            }
+        }
+    }
+</script>

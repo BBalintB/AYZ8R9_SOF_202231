@@ -6,6 +6,7 @@ using AYZ8R9_SOF_202231.Repository;
 using AYZ8R9_SOF_202231.Logic;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Configuration;
+using AYZ8R9_SOF_202231.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddDbContext<SCRUMDbContext>(opt =>
     opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SCRUMDB;Trusted_Connection=True;MultipleActiveResultSets=true")
     .UseLazyLoadingProxies();
 });
+
+builder.Services.AddSignalR();
 
 builder.Services.AddDefaultIdentity<AppUser>(options =>
 {
@@ -65,6 +68,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.MapHub<EventHub>("/events");
 
 app.UseAuthentication(); ;
 app.UseAuthorization();

@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <p>Story name: @item.UserStoryName <a class="fa-solid fa-pencil usa" href="/story/change?id=@item.UserStoryId"></a> <a class="fa-solid fa-trash usa" href="/story/deletestory?id=@item.UserStoryId"></a></p>
                     <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
-                    <div class="@item.UserStoryId.Substring(0,5)" id="desc">
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;" id="desc">
                         <p>@item.UserStoryDescription</p>
                     </div>
                     

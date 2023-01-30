@@ -13,7 +13,7 @@
      <br />
      <div id="createSprint">
         <label style="margin-bottom:1%;font-size:110%">Sprint due date:</label>
-        <input type="date" name="sprintduedate" id="minDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+        <input type="date" name="sprintduedate" id="minDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(42).ToString("yyyy-MM-dd")" required />
 
         <br />
         <input class="btn btn-secondary" type="submit" value="Create" />

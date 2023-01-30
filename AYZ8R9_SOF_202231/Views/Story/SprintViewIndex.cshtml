@@ -15,15 +15,18 @@
     <div class="columnStyle">
         <h4 class="topRowStyle">Sprint Backlog</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Backlog))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Backlog).OrderBy(x=>x.UserStoryPriority))
         {
             <div class="card storyTableCard">
                 <div class="card-body">
                     <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -33,7 +36,7 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
                 
@@ -43,17 +46,20 @@
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">To Do</h4>
+        <h4 class="topRowStyle">Sprint Backlog</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.ToDo))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.ToDo).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
                 <div class="card-body">
                     <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -63,26 +69,30 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">In progress</h4>
+        <h4 class="topRowStyle">Sprint Backlog</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.In_Progress))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.In_Progress).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
                 <div class="card-body">
                     <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -92,26 +102,30 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">Verify</h4>
+        <h4 class="topRowStyle">Sprint Backlog</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Verify))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Verify).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
                 <div class="card-body">
                     <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -121,26 +135,30 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle" style="border-right: 1px solid black;">Done</h4>
+        <h4 class="topRowStyle">Sprint Backlog</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Done))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Done).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
                 <div class="card-body">
                     <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -150,15 +168,30 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 </div>
 
+
+<script>
+
+    function myFunction(cl) {
+        var x = document.getElementsByClassName(cl);
+        for (var i = 0; i < x.length; i++) {
+            if (x[i].style.display == "none") {
+                x[i].style.display = "block";
+            } else {
+                x[i].style.display = "none";
+            }
+        }
+    }
+</script>
 
 
 
