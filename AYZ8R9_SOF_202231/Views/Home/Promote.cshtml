@@ -8,21 +8,21 @@
     @foreach (var user in Model.ToList())
     {
         
-                @if (UserManager.IsInRoleAsync(user, "Scrum_master").Result == true)
-                {
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                    <img class="nav-hellobar-img" id="logimg"src="@Url.Action("GetImage","Home", new {userid = user.Id})" />
+         @if (UserManager.IsInRoleAsync(user, "Scrum_master").Result == true)
+         {
+             <div class="card" style="width: 18rem;">
+                 <div class="card-body">
+             <img class="nav-hellobar-img" id="logimg"src="@Url.Action("GetImage","Home", new {userid = user.Id})" />
 
-                        <h5 class="card-title">@user.LastName @user.FirstName <span class="badge bg-secondary">Scrum Master</span></h5>
-                        </div>
-                              
-                        @if (User.IsInRole("Admin"))
-                        {
-                           <a class="btn btn-danger" href="DemoteMaster?userId=@user.Id">Demote from Scrum master</a>
-                        }
-                    </div>
-                }
+                 <h5 class="card-title">@user.LastName @user.FirstName <span class="badge bg-secondary">Scrum Master</span></h5>
+                 </div>
+                       
+                 @if (User.IsInRole("Admin"))
+                 {
+                    <a class="btn btn-danger" href="DemoteMaster?userId=@user.Id">Demote from Scrum master</a>
+                 }
+             </div>
+         }
          else if(UserManager.IsInRoleAsync(user, "Developer").Result == true)
          {
                 <div class="card" style="width: 18rem;">

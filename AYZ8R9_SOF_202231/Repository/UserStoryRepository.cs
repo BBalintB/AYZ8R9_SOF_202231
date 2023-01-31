@@ -18,6 +18,7 @@ namespace AYZ8R9_SOF_202231.Repository
             userStory.Status = NewStory.Status;
             userStory.UserStoryPriority = NewStory.UserStoryPriority;
             userStory.SprintId = NewStory.SprintId;
+            userStory.UserId = NewStory.UserId;
             ctx.SaveChanges();
         }
 

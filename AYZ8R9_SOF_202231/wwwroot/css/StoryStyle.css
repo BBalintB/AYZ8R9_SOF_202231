@@ -49,3 +49,17 @@
     width: 20%;
     float: left;
 }
+
+.card-text-story {
+    text-align:center;
+}
+
+    div.card-text-story{
+        text-align: center;
+        display:none;
+    }
+
+.story-button {
+    margin-left:15%;
+
+}

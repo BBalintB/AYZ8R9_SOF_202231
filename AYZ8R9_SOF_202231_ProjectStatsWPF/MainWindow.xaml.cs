@@ -1,10 +1,12 @@
 ﻿using AYZ8R9_SOF_202231.Model;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +32,7 @@ namespace AYZ8R9_SOF_202231_ProjectStatsWPF
         public ObservableCollection<Project> Projects{ get; set; }
 
         HttpClient client;
+        HubConnection conn;
 
         public MainWindow()
         {
@@ -48,7 +51,29 @@ namespace AYZ8R9_SOF_202231_ProjectStatsWPF
                 Projects = new ObservableCollection<Project>(await GetProjects());
             }).Wait();
 
+            conn = new HubConnectionBuilder().WithUrl("https://localhost:7133/events").Build();
+            conn.Closed += async (error) =>
+            {
+                await Task.Delay(new Random().Next(0, 5) * 1000);
+                await conn.StartAsync();
+            };
+
+            conn.On<Project>("projectCreated", async t => await Refresh());
+            conn.On<Project>("projectModified", async t => await Refresh());
+            conn.On<string>("projectDeleted",async t => await Refresh());
+
+            Task.Run(async () =>
+            {
+                await conn.StartAsync();
+            }).Wait();
+
             this.DataContext = this;
+        }
+
+        async Task Refresh()
+        {
+            Projects = new ObservableCollection<Project>(await GetProjects());
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Projects"));
         }
 
         async Task<IEnumerable<Project>> GetProjects()

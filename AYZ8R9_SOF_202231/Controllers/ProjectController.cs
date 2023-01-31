@@ -1,8 +1,12 @@
 ﻿using AYZ8R9_SOF_202231.Data;
+using AYZ8R9_SOF_202231.Hubs;
 using AYZ8R9_SOF_202231.Logic;
+using AYZ8R9_SOF_202231.Logic.Exceptions;
 using AYZ8R9_SOF_202231.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace AYZ8R9_SOF_202231.Controllers
 {
@@ -13,22 +17,26 @@ namespace AYZ8R9_SOF_202231.Controllers
         private readonly SCRUMDbContext _db;
         IProjectLogic projectLogic;
         IProjectAppUserLogic projectAppUserLogic;
+        IHubContext<EventHub> hub;
 
-        public ProjectController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db, IProjectLogic projectLogic, IProjectAppUserLogic projectAppUserLogic)
+        public ProjectController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db, IProjectLogic projectLogic, IProjectAppUserLogic projectAppUserLogic, IHubContext<EventHub> hub)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _db = db;
             this.projectLogic = projectLogic;
             this.projectAppUserLogic = projectAppUserLogic;
+            this.hub = hub;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             
             return View(_db.Projects);
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -36,6 +44,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpPost]
         public async Task<IActionResult> Create(Project project)
         {
@@ -49,23 +58,29 @@ namespace AYZ8R9_SOF_202231.Controllers
             }
 
             projectLogic.CreateProject(project);
+            await hub.Clients.All.SendAsync("projectCreated", project);
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
-        public IActionResult DeleteProject(string id)
+        public async Task<IActionResult> DeleteProject(string id)
         {
             projectLogic.DeleteProject(id);
+            await hub.Clients.All.SendAsync("projectDeleted", id);
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpGet]
         public IActionResult Change(string id)
         {
             var project = projectLogic.GetOneProject(id);
+            
             return View(project);
         }
 
+        [Authorize(Roles = "Admin,Scrum_Master")]
         [HttpPost]
         public async Task<IActionResult> Change(Project project)
         {
@@ -79,9 +94,11 @@ namespace AYZ8R9_SOF_202231.Controllers
             }
 
             projectLogic.ChangeProject(project);
+            await hub.Clients.All.SendAsync("projectModified", project);
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> SignUp(string id)
         {
@@ -99,10 +116,11 @@ namespace AYZ8R9_SOF_202231.Controllers
             };
 
             projectAppUserLogic.CreatePA(pa);
-
+            await hub.Clients.All.SendAsync("projectModified", project);
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> SignDown(string id)
         {
@@ -110,7 +128,7 @@ namespace AYZ8R9_SOF_202231.Controllers
             var user = await _userManager.GetUserAsync(this.User);
 
             projectAppUserLogic.DeletePA(project.ProjectId,user.Id);
-
+            await hub.Clients.All.SendAsync("projectModified", project);
             return RedirectToAction(nameof(Index));
         }
 

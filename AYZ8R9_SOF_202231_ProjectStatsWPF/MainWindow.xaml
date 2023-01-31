@@ -7,14 +7,22 @@
         mc:Ignorable="d"
         Title="Projects" Height="450" Width="800">
     <Grid>
-        <ListBox ItemsSource="{Binding Projects}">
+        <ListBox ItemsSource="{Binding Projects}" HorizontalContentAlignment="Stretch" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <Label Content="{Binding ProjectName}" ContentStringFormat="Project name: {0}" />
-                        <Label Content="{Binding Owner.UserName}" ContentStringFormat="Owner name: {0}" />
-                        <Label Content="{Binding ProjectUsers.Count}" ContentStringFormat="Number of users signed up: {0}" />
-                    </StackPanel>
+                    <Grid Background="LightBlue" Margin="0 5 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="{Binding ProjectName}" ContentStringFormat="Project name: {0}" Grid.Row="1"/>
+                        <Label Content="{Binding Owner.UserName}" ContentStringFormat="Owner name: {0}" Grid.Row="2"/>
+                        <Label Content="{Binding ProjectUsers.Count}" ContentStringFormat="Number of users signed up: {0}" Grid.Row="3"/>
+                        <Label Content="{Binding ProjectSprints.Count}" ContentStringFormat="Number of sprints: {0}" Grid.Row="4"/>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

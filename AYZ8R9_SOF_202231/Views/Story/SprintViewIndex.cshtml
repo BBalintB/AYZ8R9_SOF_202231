@@ -9,21 +9,50 @@
 
 @model IEnumerable<UserStory>
 
-<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Story/StoriesToSprint">Manage stories</a>
+@if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+{
+   <a class="btn btn-secondary changeButton" role="button" href="/Story/StoriesToSprint">Manage stories</a>
+
+}
 
 <div style="margin-bottom:10%">
     <div class="columnStyle">
         <h4 class="topRowStyle">Sprint Backlog</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Backlog))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Backlog).OrderBy(x=>x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+                        
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -33,7 +62,7 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
                 
@@ -45,15 +74,40 @@
     <div class="columnStyle">
         <h4 class="topRowStyle">To Do</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.ToDo))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.ToDo).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -63,26 +117,52 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">In progress</h4>
+        <h4 class="topRowStyle">In Progress</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.In_Progress))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.In_Progress).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -92,26 +172,52 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 
     <div class="columnStyle">
         <h4 class="topRowStyle">Verify</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Verify))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Verify).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -121,26 +227,52 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle" style="border-right: 1px solid black;">Done</h4>
+        <h4 class="topRowStyle">Done</h4>
         <hr />
-        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Done))
+        @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Done).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
-                    <p>@item.UserStoryDescription</p>
-                    <p>@item.UserStoryPriority</p>
-                    <form method="post" action="/story/status">
-                        <select name="status">
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
+                        <p>@item.UserStoryDescription</p>
+                    </div>
+                    <p class="card-text-story">@item.UserStoryPriority</p>
+                    <form class="form-group" method="post" action="/story/status">
+                        <select class="form-control" name="status">
                             @foreach (var days in Enum.GetValues(typeof(UserStoryStatus)))
                             {
                                 <option value="@days">@days</option>
@@ -150,14 +282,17 @@
                         <input type="hidden" name="userstoryname" value="@item.UserStoryName" />
                         <input type="hidden" name="userstorydescription" value="@item.UserStoryDescription" />
                         <input type="hidden" name="userstorypriority" value="@item.UserStoryPriority" />
-                        <input type="submit" value="Add to status" />
+                        <input class="btn btn-light story-button" type="submit" value="Add to status" />
                     </form>
                 </div>
 
             </div>
+
         }
     </div>
 </div>
+
+
 
 
 

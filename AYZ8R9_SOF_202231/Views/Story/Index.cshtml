@@ -9,7 +9,7 @@
 
 @model IEnumerable<UserStory>
 
-<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Story/Create">Create story</a>
+<a class="btn btn-secondary changeButton" role="button" href="/Story/Create">Create story</a>
 <div>
     <div class="backlog-story-design">
         @foreach (var item in Model)
@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <p>Story name: @item.UserStoryName <a class="fa-solid fa-pencil usa" href="/story/change?id=@item.UserStoryId"></a> <a class="fa-solid fa-trash usa" href="/story/deletestory?id=@item.UserStoryId"></a></p>
                     <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
-                    <div class="@item.UserStoryId.Substring(0,5)" id="desc">
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;" id="desc">
                         <p>@item.UserStoryDescription</p>
                     </div>
                     
@@ -30,23 +30,6 @@
     </div>
 </div>
 
-
-<script>
-        function myFunction(cl) {
-            var x = document.getElementsByClassName(cl);
-            for(var i = 0; i < x.length; i++){
-                if (x[i].style.display == "none") {
-                    x[i].style.display = "block";
-                } else {
-                    x[i].style.display = "none";
-                }
-            }
-
-
-
-
-        }
-</script>
     
 
 

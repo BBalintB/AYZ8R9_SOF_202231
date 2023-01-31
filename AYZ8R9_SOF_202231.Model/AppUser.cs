@@ -26,11 +26,16 @@ namespace AYZ8R9_SOF_202231.Model
         [JsonIgnore]
         public virtual ICollection<ProjectAppUser> WorkingProjects{ get; set; }
 
+        [NotMapped]
+        [JsonIgnore]
+        public virtual ICollection<UserStory> UserStories { get; set; }
+
 
 
         public AppUser()
         {
             WorkingProjects = new HashSet<ProjectAppUser>();
+            UserStories = new HashSet<UserStory>();
         }
     }
 }

@@ -11,28 +11,129 @@
 
 @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
 {
-    <a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Sprint/Create" >Create sprint</a>    
+    <a class="btn btn-secondary changeButton" role="button" href="/Sprint/Create" >Create sprint</a>
+    <div class="table-responsive sprintTable">
+        <div>
+            <h3>Ongoing sprints</h3>
+            <table class="table">
+            <tr>
+                <th scope="col">Sprint name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Update</th>
+            </tr>
+            @foreach (var item in Model.Where(x=>!x.UserStories.All(y => y.Status == UserStoryStatus.Done ) && DateTime.Parse(x.SprintDueDate) >= DateTime.Now))
+            {
+                    @:<tr class="table-active">
+                    @:<td>
+                        <a class="ps" href="/story/openstory?id=@item.SprintId">@item.SprintName</a>
+                    @:</td>
+                    @:<td>@item.SprintDueDate</td>
+                    @:<td><a class="fa-solid fa-trash ps" href="/sprint/deletesprint?id=@item.SprintId"></a></td>
+                    @:<td><a class="fa-solid fa-pencil ps" href="/sprint/change?id=@item.SprintId"></a></td>
+
+                @:</tr>
+            }
+            </table>
+        </div>
+        
+        <br />
+        <button type="button" class="btn btn-outline-secondary sprintButton" onclick="sprintFunction('finished')">Finished sprints</button>
+        <div  id="finished" style="display:none">
+            <table class="table">
+            <tr>
+                <th scope="col">Sprint name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Update</th>
+            </tr>
+            @foreach (var item in Model.Where(x=>x.UserStories.All(y => y.Status == UserStoryStatus.Done) && x.UserStories.Count > 0))
+            {
+                    @:<tr class="table-active">
+                    @:<td>
+                        <a class="ps" href="/story/openstory?id=@item.SprintId">@item.SprintName</a>
+                    @:</td>
+                    @:<td>@item.SprintDueDate</td>
+                    @:<td><a class="fa-solid fa-trash ps" href="/sprint/deletesprint?id=@item.SprintId"></a></td>
+                    @:<td><a class="fa-solid fa-pencil ps" href="/sprint/change?id=@item.SprintId"></a></td>
+
+                @:</tr>
+            }
+            </table>
+        </div>
+
+        <br>
+        <button type="button" class="btn btn-outline-secondary sprintButton" onclick="sprintFunction('unfinished')">Unfinished sprints</button>
+
+        <div id="unfinished" style="display:none">
+            <table class="table" >
+            <tr>
+                <th scope="col">Sprint name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Update</th>
+            </tr>
+            @foreach (var item in Model.Where(x=>(!x.UserStories.All(y => y.Status == UserStoryStatus.Done ) && DateTime.Parse(x.SprintDueDate) < DateTime.Now) || x.UserStories.Count == 0  ))
+            {
+                    @:<tr class="table-active">
+                    @:<td>
+                        <a class="ps" href="/story/openstory?id=@item.SprintId">@item.SprintName</a>
+                    @:</td>
+                    @:<td>@item.SprintDueDate</td>
+                    @:<td><a class="fa-solid fa-trash ps" href="/sprint/deletesprint?id=@item.SprintId"></a></td>
+                    @:<td><a class="fa-solid fa-pencil ps" href="/sprint/change?id=@item.SprintId"></a></td>
+
+                @:</tr>
+            }
+            </table>
+        </div>
+        
+        
+        
+    </div>
+
+}
+else
+{
+    <div class="table-responsive sprintTable">
+        <table class="table">
+            <tr>
+                <th scope="col">Sprint name</th>
+                <th scope="col">Date</th>
+            </tr>
+            @foreach (var item in Model.Where(x=>!x.UserStories.All(y => y.Status == UserStoryStatus.Done ) && DateTime.Parse(x.SprintDueDate) > DateTime.Now))
+            {
+                    @:<tr class="table-active">
+                    @:<td>
+
+                    @if (DateTime.Parse(item.SprintDueDate) < DateTime.Now)
+                    {
+                        <div class="ps">@item.SprintName</div>
+                    }
+                    else
+                    {
+                        <a class="ps" href="/story/openstory?id=@item.SprintId">@item.SprintName</a>
+                    }
+                    @:</td>
+                    @:<td>@item.SprintDueDate</td>
+
+                @:</tr>
+            }
+        </table>
+    </div>
+
+
 }
 
-<div class="table-responsive sprintTable">
-    <table class="table">
-        <tr>
-            <th scope="col">Sprint name</th>
-            <th scope="col">Date</th>
-            <th scope="col">Delete</th>
-            <th scope="col">Update</th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            @:<tr class="table-active">
-                @:<td><a class="ps" href="/story/openstory?id=@item.SprintId">@item.SprintName</a></td>
-                @:<td>@item.SprintDueDate</td>
-                @:<td><a class="fa-solid fa-trash ps" href="/sprint/deletesprint?id=@item.SprintId"></a></td>
-                @:<td><a class="fa-solid fa-pencil ps" href="/sprint/change?id=@item.SprintId"></a></td>
-
-            @:</tr>
+<script>
+        function sprintFunction(cl) {
+            var x = document.getElementById(cl);
+            if (x.style.display == "none") {
+                 x.style.display = "block";
+            } else {
+                 x.style.display = "none";
+            }
         }
-    </table>
-</div>
+</script>
 
 

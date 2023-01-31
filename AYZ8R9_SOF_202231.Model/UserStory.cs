@@ -32,6 +32,12 @@ namespace AYZ8R9_SOF_202231.Model
         [JsonIgnore]
         public virtual Sprint? Sprint{ get; set; }
 
+        [ForeignKey(nameof(User))]
+        public string? UserId { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public virtual AppUser? User { get; set; }
+
         public UserStory()
         {
             UserStoryId = Guid.NewGuid().ToString();
