@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\ProjectStyle.css" />
+    <None Include="wwwroot\Logo\Scrummer2.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,10 @@
     <None Update="DefaultProfile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Logo\" />
   </ItemGroup>
 
 </Project>

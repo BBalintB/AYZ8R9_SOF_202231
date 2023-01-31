@@ -72,7 +72,19 @@
             &copy; 2022 - AYZ8R9_SOF_202231 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script>
 
+        function myFunction(cl) {
+            var x = document.getElementsByClassName(cl);
+            for (var i = 0; i < x.length; i++) {
+                if (x[i].style.display == "none") {
+                    x[i].style.display = "block";
+                } else {
+                    x[i].style.display = "none";
+                }
+            }
+        }
+    </script>
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

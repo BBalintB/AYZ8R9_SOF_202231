@@ -9,7 +9,7 @@
 
 @model IEnumerable<UserStory>
 
-<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Story/Create">Create story</a>
+<a class="btn btn-secondary changeButton" role="button" href="/Story/Create">Create story</a>
 <div>
     <div class="backlog-story-design">
         @foreach (var item in Model)
@@ -30,23 +30,6 @@
     </div>
 </div>
 
-
-<script>
-        function myFunction(cl) {
-            var x = document.getElementsByClassName(cl);
-            for(var i = 0; i < x.length; i++){
-                if (x[i].style.display == "none") {
-                    x[i].style.display = "block";
-                } else {
-                    x[i].style.display = "none";
-                }
-            }
-
-
-
-
-        }
-</script>
     
 
 

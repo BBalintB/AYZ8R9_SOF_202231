@@ -11,7 +11,7 @@
 
 @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
 {
-    <a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Sprint/Create" >Create sprint</a>
+    <a class="btn btn-secondary changeButton" role="button" href="/Sprint/Create" >Create sprint</a>
     <div class="table-responsive sprintTable">
         <div>
             <h3>Ongoing sprints</h3>

@@ -59,6 +59,12 @@ namespace AYZ8R9_SOF_202231.Data
                 .HasOne(Story => Story.Sprint)
                 .WithMany(Sprint => Sprint.UserStories)
                 .HasForeignKey(Story => Story.SprintId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<UserStory>()
+                .HasOne(Story => Story.User)
+                .WithMany(User => User.UserStories)
+                .HasForeignKey(Story => Story.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Project>()

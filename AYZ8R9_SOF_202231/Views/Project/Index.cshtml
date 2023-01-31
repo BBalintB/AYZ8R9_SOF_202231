@@ -14,7 +14,7 @@
 <h1>Projects</h1>
 @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
 {
-    <a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/project/create">Create a new project</a>
+    <a class="btn btn-secondary changeButton" role="button" href="/project/create">Create a new project</a>
 }
 @foreach(var project in Model)
 {

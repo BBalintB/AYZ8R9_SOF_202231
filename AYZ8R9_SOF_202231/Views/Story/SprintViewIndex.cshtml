@@ -9,7 +9,11 @@
 
 @model IEnumerable<UserStory>
 
-<a style="margin-bottom:1%" class="btn btn-secondary" role="button" href="/Story/StoriesToSprint">Manage stories</a>
+@if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+{
+   <a class="btn btn-secondary changeButton" role="button" href="/Story/StoriesToSprint">Manage stories</a>
+
+}
 
 <div style="margin-bottom:10%">
     <div class="columnStyle">
@@ -18,8 +22,30 @@
         @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Backlog).OrderBy(x=>x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+                        
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
                     <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
                     <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
                         <p>@item.UserStoryDescription</p>
@@ -46,15 +72,37 @@
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">Sprint Backlog</h4>
+        <h4 class="topRowStyle">To Do</h4>
         <hr />
         @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.ToDo).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
                     <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
-                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
                         <p>@item.UserStoryDescription</p>
                     </div>
                     <p class="card-text-story">@item.UserStoryPriority</p>
@@ -79,15 +127,37 @@
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">Sprint Backlog</h4>
+        <h4 class="topRowStyle">In Progress</h4>
         <hr />
         @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.In_Progress).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
                     <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
-                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
                         <p>@item.UserStoryDescription</p>
                     </div>
                     <p class="card-text-story">@item.UserStoryPriority</p>
@@ -112,15 +182,37 @@
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">Sprint Backlog</h4>
+        <h4 class="topRowStyle">Verify</h4>
         <hr />
         @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Verify).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
                     <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
-                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
                         <p>@item.UserStoryDescription</p>
                     </div>
                     <p class="card-text-story">@item.UserStoryPriority</p>
@@ -145,15 +237,37 @@
     </div>
 
     <div class="columnStyle">
-        <h4 class="topRowStyle">Sprint Backlog</h4>
+        <h4 class="topRowStyle">Done</h4>
         <hr />
         @foreach (var item in Model.Where(x => x.Status == UserStoryStatus.Done).OrderBy(x => x.UserStoryPriority))
         {
             <div class="card storyTableCard">
-                <div class="card-body">
-                    <p>@item.UserStoryName <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a></p>
+                <div class="card-body" title="@(item.UserId != null ? item.User.UserName : "")">
+                    <div>
+                        @item.UserStoryName
+                        @if (User.IsInRole("Admin") || User.IsInRole("Scrum_Master"))
+                        {
+                            <a class="fa-solid fa-trash usa" href="/story/removefromsprint?id=@item.UserStoryId"></a>
+
+                        }
+
+                        @if (item.UserId == null)
+                        {
+                            <a class="fa-solid fa-plus usa" href="/story/signup?id=@item.UserStoryId"></a>
+
+                        }
+                        else
+                        {
+                            @if (UserManager.GetUserId(User) == item.UserId)
+                            {
+                                <a class="fa-solid fa-minus usa" href="/story/signdown?id=@item.UserStoryId"></a>
+                            }
+
+                        }
+
+                    </div>
                     <button type="button" class="btn btn-outline-secondary backlogButton" onclick="myFunction('@item.UserStoryId.Substring(0,5)')">Description</button>
-                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center">
+                    <div class="@item.UserStoryId.Substring(0,5)" style="display:none;text-align:center;">
                         <p>@item.UserStoryDescription</p>
                     </div>
                     <p class="card-text-story">@item.UserStoryPriority</p>
@@ -179,19 +293,7 @@
 </div>
 
 
-<script>
 
-    function myFunction(cl) {
-        var x = document.getElementsByClassName(cl);
-        for (var i = 0; i < x.length; i++) {
-            if (x[i].style.display == "none") {
-                x[i].style.display = "block";
-            } else {
-                x[i].style.display = "none";
-            }
-        }
-    }
-</script>
 
 
 

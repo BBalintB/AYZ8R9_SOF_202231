@@ -157,5 +157,24 @@ namespace AYZ8R9_SOF_202231.Controllers
             storyLogic.ChangeStory(story);
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize]
+        public async Task<IActionResult> SignUp(string id)
+        { 
+            var story = _db.UserStories.FirstOrDefault(x=>x.UserStoryId== id);
+            var user = await _userManager.GetUserAsync(this.User);
+            story.UserId = user.Id;
+            storyLogic.ChangeStory(story);
+            return RedirectToAction(nameof(SprintViewIndex));
+        }
+
+        [Authorize]
+        public IActionResult SignDown(string id)
+        {
+            var story = _db.UserStories.FirstOrDefault(x => x.UserStoryId == id);
+            story.UserId = null;
+            storyLogic.ChangeStory(story);
+            return RedirectToAction(nameof(SprintViewIndex));
+        }
     }
 }
