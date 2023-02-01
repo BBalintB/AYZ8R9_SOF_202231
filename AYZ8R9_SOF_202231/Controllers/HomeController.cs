@@ -28,9 +28,6 @@ namespace AYZ8R9_SOF_202231.Controllers
         private readonly IUserStoryLogic storyLogic;
         private readonly IProjectAppUserLogic paLogic;
 
-        [BindProperty]
-        public UglyInputModel Input { get; set; }
-
         public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SCRUMDbContext db, IAppUserLogic appUserLogic, IProjectLogic projectLogic, ISprintLogic sprintLogic, IUserStoryLogic storyLogic, IProjectAppUserLogic paLogic)
         {
             _logger = logger;
@@ -71,6 +68,7 @@ namespace AYZ8R9_SOF_202231.Controllers
 
 
         //roles control
+
         public IActionResult Promote()
         {
 
@@ -78,10 +76,10 @@ namespace AYZ8R9_SOF_202231.Controllers
         }
 
         [Authorize(Roles = "Admin,Scrum_Master")]
-        public async Task<IActionResult> PromoteMaster(string userId) 
+        public async Task<IActionResult> PromoteMaster(string userId)
         {
             var toPromote = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
-            if (toPromote != null /* and isnt in role? (possible problem) */) 
+            if (toPromote != null /* and isnt in role? (possible problem) */)
             {
                 await _userManager.AddToRoleAsync(toPromote, "Scrum_Master");
                 await _userManager.RemoveFromRoleAsync(toPromote, "Developer");
@@ -91,7 +89,7 @@ namespace AYZ8R9_SOF_202231.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DemoteMaster(string userId) 
+        public async Task<IActionResult> DemoteMaster(string userId)
         {
             var toPromote = _db.AppUsers.FirstOrDefault(u => u.Id == userId);
             if (toPromote != null)
@@ -103,25 +101,28 @@ namespace AYZ8R9_SOF_202231.Controllers
             return RedirectToAction(nameof(Promote));
 
         }
+
+
         public IActionResult EditProfilePic()
         {
             return View();
         }
 
-        public async Task<IActionResult> EditProfilePicAction() // user várása ill, logicból update hívás
+        public async Task<IActionResult> EditProfilePicAction(string userid, [FromForm] IFormFile photoUpload) // user várása ill, logicból update hívás
         {
-            var toUpdate = _db.AppUsers.FirstOrDefault(u => u.Id == Input.CurrentUser);
-            if (toUpdate != null && Input.File != null)
+            var toUpdate = _db.AppUsers.FirstOrDefault(u => u.Id == userid);
+            if (toUpdate != null && photoUpload != null)
             {
-                toUpdate.PhotoContentType = Input.File.ContentType;
+                toUpdate.PhotoContentType = photoUpload.ContentType;
 
-                byte[] data = new byte[(int)Input.File.Length];
-                using (var stream = Input.File.OpenReadStream())
+                byte[] data = new byte[(int)photoUpload.Length];
+                using (var stream = photoUpload.OpenReadStream())
                 {
                     stream.Read(data, 0, data.Length);
                 }
                 toUpdate.PhotoData = data;
-                _db.SaveChanges();
+                appUserLogic.ChangeUser(toUpdate);
+
             }
             return RedirectToAction(nameof(EditProfilePic));
         }
@@ -143,11 +144,5 @@ namespace AYZ8R9_SOF_202231.Controllers
             }
         }
     }
-    public class UglyInputModel 
-    {
-        public string CurrentUser { get; set; }
 
-        [DataType(DataType.ImageUrl)]
-        public IFormFile File { get; set; }
-    }
 }

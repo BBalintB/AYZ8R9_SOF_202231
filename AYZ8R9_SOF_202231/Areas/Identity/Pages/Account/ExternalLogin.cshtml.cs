@@ -151,11 +151,12 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                         FirstName = info.Principal.FindFirstValue(ClaimTypes.Surname),
                         LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
-
+                        
                     };
                     var access_token_json = new WebClient().DownloadString("https://graph.facebook.com/oauth/access_token?client_id=666379255279692&client_secret=5dcc3cdc5508c6e79f0f573821883d31&grant_type=client_credentials");
                     var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
                     Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
+                    
                 }
                 return Page();
             }
@@ -210,7 +211,7 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                         {
                             return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
                         }
-
+                        user.EmailConfirmed = true; //illegal move
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);
                     }

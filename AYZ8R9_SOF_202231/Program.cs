@@ -10,13 +10,14 @@ using AYZ8R9_SOF_202231.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("AzureConnection");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<SCRUMDbContext>(opt =>
 {
     //opt.UseInMemoryDatabase("db");
-    opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SCRUMDB;Trusted_Connection=True;MultipleActiveResultSets=true")
+    opt.UseSqlServer(connectionString)
     .UseLazyLoadingProxies();
 });
 
