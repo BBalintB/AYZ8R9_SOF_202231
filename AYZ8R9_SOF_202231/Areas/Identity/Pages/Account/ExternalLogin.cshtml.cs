@@ -94,7 +94,7 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
-            public string PictureUrl { get; set; }
+            public string? PictureUrl { get; set; }
         }
         public class TokenModel
         {
@@ -182,6 +182,7 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                 var wc = new WebClient();
                 user.PhotoData = wc.DownloadData(Input.PictureUrl);
                 user.PhotoContentType = wc.ResponseHeaders["Content-Type"];
+                user.EmailConfirmed = true;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -211,7 +212,6 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                         {
                             return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
                         }
-                        user.EmailConfirmed = true; //illegal move
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);
                     }
