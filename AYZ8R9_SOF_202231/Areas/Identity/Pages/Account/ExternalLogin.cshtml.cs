@@ -179,10 +179,15 @@ namespace AYZ8R9_SOF_202231.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
 
+                if (info.ProviderDisplayName == "Facebook")
+                {    
                 var wc = new WebClient();
                 user.PhotoData = wc.DownloadData(Input.PictureUrl);
                 user.PhotoContentType = wc.ResponseHeaders["Content-Type"];
                 user.EmailConfirmed = true;
+
+                }
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
