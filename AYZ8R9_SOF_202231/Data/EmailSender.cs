@@ -1,4 +1,4 @@
-﻿using System.Net.Mail;
+﻿  using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -9,19 +9,20 @@ using Microsoft.AspNetCore.Identity.UI.Services;
         {
             using (SmtpClient client = new SmtpClient()
             {
-                Host = "smtp.office365.com",
+                Host = "smtp.gmail.com",
                 Port = 587,
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("sbence@stud.uni-obuda.hu", "Megbuktamarhin1"),
-                TargetName = "STARTTLS/smtp.office365.com",
+                Credentials = new NetworkCredential("szerveroldali.noreply@gmail.com", "aofbhbalmdmuazbd"),
+                TargetName = "STARTTLS/smtp.gmail.com",
                 EnableSsl = true
+                
 
             })
             {
                 MailMessage message = new MailMessage()
                 {
-                    From = new MailAddress("sbence@stud.uni-obuda.hu"),
+                    From = new MailAddress("szerveroldali.noreply@gmail.com"),
                     Subject = subject,
                     IsBodyHtml = true,
                     Body = htmlMessage,
