@@ -7,6 +7,9 @@ using AYZ8R9_SOF_202231.Logic;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Configuration;
 using AYZ8R9_SOF_202231.Hubs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +25,7 @@ builder.Services.AddDbContext<SCRUMDbContext>(opt =>
 
 builder.Services.AddSignalR();
 
-builder.Services.AddDefaultIdentity<AppUser>(options =>
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireDigit = true;
@@ -31,11 +34,31 @@ builder.Services.AddDefaultIdentity<AppUser>(options =>
     options.Password.RequireUppercase = false;
 
 })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<SCRUMDbContext>();
+    .AddEntityFrameworkStores<SCRUMDbContext>()
+    .AddDefaultTokenProviders();
 
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = "http://www.security.org",
+        ValidIssuer = "http://www.security.org",
+        IssuerSigningKey = new SymmetricSecurityKey
+    (Encoding.UTF8.GetBytes("nagyonhosszutitkoskodhelye"))
+    };
+});
 
 builder.Services.AddAuthentication()
     .AddFacebook(opt =>
@@ -59,6 +82,10 @@ builder.Services.AddTransient<IUserStoryLogic, UserStoryLogic>();
 
 builder.Services.AddTransient<IProjectAppUserRepository, ProjectAppUserRepository>();
 builder.Services.AddTransient<IProjectAppUserLogic, ProjectAppUserLogic>();
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 

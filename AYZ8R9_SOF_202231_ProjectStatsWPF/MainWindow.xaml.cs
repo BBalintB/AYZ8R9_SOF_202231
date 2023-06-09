@@ -41,7 +41,7 @@ namespace AYZ8R9_SOF_202231_ProjectStatsWPF
             Thread.Sleep(5000);
 
             client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7133");
+            client.BaseAddress = new Uri("https://scrummer.azurewebsites.net");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
             new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -51,7 +51,7 @@ namespace AYZ8R9_SOF_202231_ProjectStatsWPF
                 Projects = new ObservableCollection<Project>(await GetProjects());
             }).Wait();
 
-            conn = new HubConnectionBuilder().WithUrl("https://localhost:7133/events").Build();
+            conn = new HubConnectionBuilder().WithUrl("https://scrummer.azurewebsites.net/events").Build();
             conn.Closed += async (error) =>
             {
                 await Task.Delay(new Random().Next(0, 5) * 1000);
