@@ -11,9 +11,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+var MyAllowSpecificOrigins = "myAllowSpecificOrigins";
+//var connectionString = builder.Configuration.GetConnectionString("AzureConnection");
+
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("AzureConnection");
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -98,6 +109,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapHub<EventHub>("/events");
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication(); ;
 app.UseAuthorization();
