@@ -14,10 +14,17 @@ var connectionString = builder.Configuration.GetConnectionString("AzureConnectio
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//builder.Services.AddDbContext<SCRUMDbContext>(opt =>
+//{
+//    //opt.UseInMemoryDatabase("db");
+//    opt.UseSqlServer(connectionString)
+//    .UseLazyLoadingProxies();
+//});
+
 builder.Services.AddDbContext<SCRUMDbContext>(opt =>
 {
     //opt.UseInMemoryDatabase("db");
-    opt.UseSqlServer(connectionString)
+    opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SCRUMDB;Trusted_Connection=True;MultipleActiveResultSets=true")
     .UseLazyLoadingProxies();
 });
 
