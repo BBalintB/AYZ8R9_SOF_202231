@@ -14,8 +14,17 @@ namespace AYZ8R9_SOF_202231.Model
     }
     public class UserStory
     {
+        private string usid = "";
         [Key]
-        public string UserStoryId { get; set; }
+        public string UserStoryId {
+            get { return usid; }
+            set { 
+                if(value != null)
+                { 
+                    usid = value; 
+                }
+            }
+        }
         [Required]
         [MaxLength(30,ErrorMessage = "The story name cant be longer then 30 characters!")]
         public string UserStoryName { get; set; }
@@ -40,7 +49,7 @@ namespace AYZ8R9_SOF_202231.Model
 
         public UserStory()
         {
-            UserStoryId = Guid.NewGuid().ToString();
+            usid = Guid.NewGuid().ToString();
             Status = UserStoryStatus.Backlog;
         }
     }

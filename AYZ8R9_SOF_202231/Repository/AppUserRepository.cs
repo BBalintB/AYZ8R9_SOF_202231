@@ -16,6 +16,10 @@ namespace AYZ8R9_SOF_202231.Repository
             user.Email = NewAppUser.Email;
             user.FirstName = NewAppUser.FirstName;
             user.LastName = NewAppUser.LastName;
+            user.UserName = NewAppUser.UserName;
+            user.Email = NewAppUser.Email;
+            user.PhotoData = NewAppUser.PhotoData;
+            user.PhotoContentType = NewAppUser.PhotoContentType;
             ctx.SaveChanges();
         }
 
