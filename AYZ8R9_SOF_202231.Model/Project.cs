@@ -12,9 +12,19 @@ namespace AYZ8R9_SOF_202231.Model
     
     public class Project
     {
+        private string usid = "";
         [Key]
         [Required]
-        public string ProjectId { get; set; }
+        public string ProjectId {
+            get { return usid; }
+            set
+            {
+                if (value != null)
+                {
+                    usid = value;
+                }
+            }
+        }
         [Required]
         [StringLength(20,ErrorMessage ="The project name has to be shorter than 20 characters")]
         public string ProjectName { get; set; }
@@ -32,7 +42,7 @@ namespace AYZ8R9_SOF_202231.Model
 
         public Project()
         {
-            ProjectId = Guid.NewGuid().ToString();
+            usid = Guid.NewGuid().ToString();
             ProjectUsers = new HashSet<ProjectAppUser>();
             ProjectSprints= new HashSet<Sprint>();
         }

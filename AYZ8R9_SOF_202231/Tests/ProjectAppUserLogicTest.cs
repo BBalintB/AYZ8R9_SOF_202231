@@ -17,8 +17,10 @@ namespace AYZ8R9_SOF_202231.Tests
         public void Init()
         {
             Mock<IProjectAppUserRepository> mockPARepo = new Mock<IProjectAppUserRepository>();
+            Mock<IProjectLogic> mockPRepo = new Mock<IProjectLogic>();
+            Mock<IAppUserLogic> mockARepo = new Mock<IAppUserLogic>();
             mockPARepo.Setup(x => x.GetAll()).Returns(this.FakeProject());
-            logic = new ProjectAppUserLogic(mockPARepo.Object);
+            logic = new ProjectAppUserLogic(mockPARepo.Object,mockARepo.Object,mockPRepo.Object);
         }
 
         [Test]
@@ -33,7 +35,7 @@ namespace AYZ8R9_SOF_202231.Tests
         [Test]
         public void PAConnectionDoesNotExistExceptionThrown()
         {
-            var xy = Assert.Throws<ItemDoesNotExistException>(() => logic.DeletePA("24","16"));
+            var xy = Assert.Throws<ItemDoesNotExistException>(() => logic.DeletePA("24"));
         }
 
         [Test]

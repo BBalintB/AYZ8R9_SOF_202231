@@ -32,23 +32,24 @@ namespace AYZ8R9_SOF_202231.Controllers
         }
 
         [HttpPost]
-        public void CreateNewProject([FromBody] Project value)
+        public async void CreateNewProject([FromBody] Project value)
         {
             logic.CreateProject(value);
-
+            await hub.Clients.All.SendAsync("projectCreated", value);
         }
 
         [HttpPut]
-        public void ChangeProject([FromBody] Project value)
+        public async void ChangeProject([FromBody] Project value)
         {
             logic.ChangeProject(value);
-
+            await hub.Clients.All.SendAsync("projectModified", value);
         }
 
         [HttpDelete("{id}")]
-        public void DeleteProject(string id)
+        public async void DeleteProject(string id)
         {
             this.logic.DeleteProject(id);
+            await hub.Clients.All.SendAsync("projectDeleted", id);
         }
     }
 }

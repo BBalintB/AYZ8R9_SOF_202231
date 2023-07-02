@@ -127,8 +127,13 @@ namespace AYZ8R9_SOF_202231.Controllers
             var project = projectLogic.GetOneProject(id);
             var user = await _userManager.GetUserAsync(this.User);
 
-            projectAppUserLogic.DeletePA(project.ProjectId,user.Id);
-            await hub.Clients.All.SendAsync("projectModified", project);
+            var allPA = projectAppUserLogic.GetAllPA().Where(x => x.ProjectId == project.ProjectId && x.AppUserId == user.Id).FirstOrDefault();
+            if (allPA != null)
+            {
+                projectAppUserLogic.DeletePA(allPA.ConnectionId);
+                await hub.Clients.All.SendAsync("projectModified", project);
+            }
+            
             return RedirectToAction(nameof(Index));
         }
 

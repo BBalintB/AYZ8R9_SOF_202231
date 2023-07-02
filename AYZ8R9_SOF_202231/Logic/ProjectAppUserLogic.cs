@@ -8,23 +8,29 @@ namespace AYZ8R9_SOF_202231.Logic
     public class ProjectAppUserLogic : IProjectAppUserLogic
     {
         IProjectAppUserRepository paRepo;
+        IAppUserLogic userLogic;
+        IProjectLogic projectLogic;
 
-        public ProjectAppUserLogic(IProjectAppUserRepository paRepo)
+        public ProjectAppUserLogic(IProjectAppUserRepository paRepo, IAppUserLogic userLogic, IProjectLogic projectLogic)
         {
             this.paRepo = paRepo;
+            this.userLogic = userLogic;
+            this.projectLogic = projectLogic;
         }
 
         public void CreatePA(ProjectAppUser newPA)
         {
-            if (newPA.Project.ProjectUsers.Count >= 10)
+            var user = userLogic.GetOneUser(newPA.AppUserId);
+            var project = projectLogic.GetOneProject(newPA.ProjectId);
+            if (project.ProjectUsers.Count >= 10)
             {
                 throw new ProjectAlreadyFullException("The project already has 10 member team!");
             }
-            if (newPA.User.UserName == newPA.Project.Owner.UserName)
+            if (user.UserName == project.Owner.UserName)
             {
                 throw new ItemAlreadyExistException("The owner cant sign up for his own project!");
             }
-            if (IsTheUserExist(newPA))
+            if (IsTheUserExist(user,project))
             {
                 paRepo.Create(newPA);
             }
@@ -35,9 +41,9 @@ namespace AYZ8R9_SOF_202231.Logic
 
         }
 
-        public void DeletePA(string projectId,string userId)
+        public void DeletePA(string id)
         {
-            var pa = GetAllPA().FirstOrDefault(ipa => ipa.AppUserId == userId && ipa.ProjectId == projectId);
+            var pa = GetAllPA().FirstOrDefault(ipa => ipa.ConnectionId == id);
             if (pa != null)
             {
                 paRepo.Delete(pa.ConnectionId);
@@ -66,10 +72,10 @@ namespace AYZ8R9_SOF_202231.Logic
 
 
         #region Validation
-        private bool IsTheUserExist(ProjectAppUser pa)
+        private bool IsTheUserExist(AppUser user, Project project)
         {
-            var user = GetAllPA().FirstOrDefault(PA => PA.Project.ProjectName == pa.Project.ProjectName && PA.User.UserName == pa.User.UserName);
-            return user == null ? true : false;
+            var pa = GetAllPA().FirstOrDefault(PA => PA.Project.ProjectName == project.ProjectName && PA.User.UserName == user.UserName);
+            return pa == null ? true : false;
         }
         #endregion
     }

@@ -11,21 +11,31 @@ namespace AYZ8R9_SOF_202231.Model
 {
     public class ProjectAppUser
     {
+        private string usid = "";
         [Key]
-        public string ConnectionId { get; set; }
+        public string ConnectionId {
+            get { return usid; }
+            set
+            {
+                if (value != null)
+                {
+                    usid = value;
+                }
+            }
+        }
         [Required]
         public string AppUserId { get; set; }
         [Required]
         public string ProjectId { get; set; }
         [NotMapped]
         [JsonIgnore]
-        public virtual AppUser User { get; set; }
+        public virtual AppUser? User { get; set; }
         [NotMapped]
         [JsonIgnore]
-        public virtual Project Project { get; set; }
+        public virtual Project? Project { get; set; }
         public ProjectAppUser()
         {
-           ConnectionId = Guid.NewGuid().ToString();
+           usid = Guid.NewGuid().ToString();
         }
     }
 }

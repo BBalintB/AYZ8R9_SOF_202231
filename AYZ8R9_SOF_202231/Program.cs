@@ -16,11 +16,13 @@ var MyAllowSpecificOrigins = "myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddCors(option =>
 {
     option.AddPolicy(name: MyAllowSpecificOrigins, policy =>
     {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://127.0.0.1:5500", "https://127.0.0.1:5500", "http://localhost:5500", "https://localhost:5500");
     });
 });
 
@@ -82,8 +84,8 @@ builder.Services.AddAuthentication(option =>
 builder.Services.AddAuthentication()
     .AddFacebook(opt =>
     {
-        opt.AppId = "666379255279692";
-        opt.AppSecret = "5dcc3cdc5508c6e79f0f573821883d31";
+        opt.AppId = "2804343803062000";
+        opt.AppSecret = "6502c46acfba3fa1a7b905b22cc3c75d";
     });
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

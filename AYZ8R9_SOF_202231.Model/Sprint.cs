@@ -11,9 +11,19 @@ namespace AYZ8R9_SOF_202231.Model
 {
     public class Sprint
     {
+        private string usid = "";
         [Key]
         [Required]
-        public string SprintId { get; set; }
+        public string SprintId {
+            get { return usid; }
+            set
+            {
+                if (value != null)
+                {
+                    usid = value;
+                }
+            }
+        }
         [Required]
         [StringLength(20,ErrorMessage = "The name of the sprint has to be less then 20 character")]
         public string SprintName { get; set; }
@@ -34,7 +44,7 @@ namespace AYZ8R9_SOF_202231.Model
 
         public Sprint()
         {
-            SprintId = Guid.NewGuid().ToString();
+            usid = Guid.NewGuid().ToString();
             UserStories = new HashSet<UserStory>();
         }
 

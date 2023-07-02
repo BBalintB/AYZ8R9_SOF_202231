@@ -7,6 +7,10 @@ using System.Text;
 using AYZ8R9_SOF_202231.Model;
 using AYZ8R9_SOF_202231.Model.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using AYZ8R9_SOF_202231.Logic;
+using static System.Net.WebRequestMethods;
+using System.Net;
 
 namespace AYZ8R9_SOF_202231.Controllers
 {
@@ -15,10 +19,16 @@ namespace AYZ8R9_SOF_202231.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<AppUser> userManager;
-        public AuthController(UserManager<AppUser> userManager)
+        private readonly HttpClient client;
+        private readonly IAppUserLogic userLogic;
+
+        public AuthController(UserManager<AppUser> userManager, HttpClient client, IAppUserLogic userLogic)
         {
             this.userManager = userManager;
+            this.client = client;
+            this.userLogic = userLogic;
         }
+
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
@@ -47,6 +57,72 @@ namespace AYZ8R9_SOF_202231.Controllers
                 });
             }
             return Unauthorized();
+        }
+
+        [HttpPost("LoginWithFacebook")]
+        public async Task<IActionResult> LoginWithFacebook([FromBody] string credential) {
+            HttpResponseMessage resp = await client.GetAsync("https://graph.facebook.com/debug_token?input_token=" + credential + "&access_token=2804343803062000|6502c46acfba3fa1a7b905b22cc3c75d");
+            var stringThing = await resp.Content.ReadAsStringAsync();
+            var userOBJ = JsonConvert.DeserializeObject<FBUser>(stringThing);
+
+            if (userOBJ.Data.IsValid == false)
+            {
+                return Unauthorized();
+            }
+
+            HttpResponseMessage meResp = await client.GetAsync("https://graph.facebook.com/me?fields=first_name,last_name,email,id&access_token="+credential);
+            var userContent = await meResp.Content.ReadAsStringAsync();
+            var userContentObj = JsonConvert.DeserializeObject<FBUserInfo>(userContent);
+
+            if (userContentObj == null)
+            {
+                return Unauthorized();
+            }
+
+            var user = await userManager.FindByNameAsync(userContentObj.Email);
+
+            if (user == null)
+            {
+                var wc = new WebClient();
+                var registerUser = new AppUser
+                {
+                    Email = userContentObj.Email,
+                    UserName = userContentObj.Email,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    FirstName = userContentObj.FirstName,
+                    LastName = userContentObj.LastName,
+                    PhotoData = wc.DownloadData($"https://graph.facebook.com/{userContentObj.Id}/picture?type=square"),
+                    PhotoContentType = wc.ResponseHeaders["Content-Type"]
+                };
+                ;
+                var test = await userManager.CreateAsync(registerUser, Guid.NewGuid().ToString());
+                await userManager.AddToRoleAsync(registerUser, "Developer");
+
+
+                user = registerUser;
+            }
+
+            var claim = new List<Claim> {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                };
+            foreach (var role in await userManager.GetRolesAsync(user))
+            {
+                claim.Add(new Claim(ClaimTypes.Role, role));
+            }
+            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("nagyonhosszutitkoskodhelye"));
+            var token = new JwtSecurityToken(
+            issuer: "http://www.security.org", audience: "http://www.security.org",
+            claims: claim, expires: DateTime.Now.AddMinutes(60),
+            signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
+            );
+            return Ok(new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo
+            });
+
         }
 
         [HttpPut]

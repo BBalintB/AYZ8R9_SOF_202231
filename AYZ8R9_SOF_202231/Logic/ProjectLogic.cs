@@ -56,6 +56,7 @@ namespace AYZ8R9_SOF_202231.Logic
 
         public Project GetOneProject(string id)
         {
+            var test = GetAllProjects();
             var project = GetAllProjects().FirstOrDefault(x => x.ProjectId == id);
             if (project != null)
             {
